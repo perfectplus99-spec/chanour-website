@@ -122,3 +122,31 @@ test("cache buster", () => {
   assert.equal(L.withCacheBuster("https://x/pub?output=csv", 5), "https://x/pub?output=csv&t=5");
   assert.equal(L.withCacheBuster("https://x/a.csv", 5), "https://x/a.csv?t=5");
 });
+
+test("sheet rows may give the location as a pair, a full Google Maps link, or (flagged) a short link", () => {
+  const csv = [
+    "รหัสสาขา,จังหวัด,อำเภอหรือเขต,พิกัด หรือ ลิงก์ Google Maps,ลองจิจูด,วันที่บันทึก",
+    'P1,บุรีรัมย์,นางรอง,"14.6336183, 102.7902479",,2026-10-26',
+    'P2,บุรีรัมย์,เมืองบุรีรัมย์,"https://www.google.com/maps/place/x/@14.99,103.10,17z/data=!3m1!4b1!4m6!3m5!1s0x0:0x0!8m2!3d14.9931!4d103.1031",,2026-10-27', // Google quotes cells with commas
+    'P3,บุรีรัมย์,ลำปลายมาศ,,"https://maps.google.com/?q=14.8366,102.8941",2026-10-28',
+    "P4,ขอนแก่น,เมืองขอนแก่น,14.9930,103.1029,2026-10-29",
+    "P5,ขอนแก่น,พล,https://maps.app.goo.gl/AbCdEf123,,2026-10-30",
+    "P6,ขอนแก่น,ชุมแพ,14.9930,,2026-10-31",
+    "P7,ขอนแก่น,บ้านไผ่,ถนนมิตรภาพ,,2026-10-31",
+  ].join("\n");
+  const r = L.parseBranches(csv, index);
+  assert.equal(r.branches.length, 7);
+  const by = Object.fromEntries(r.branches.map(b => [b.code, b]));
+  assert.deepEqual([by.P1.lat, by.P1.lng], [14.6336183, 102.7902479]);
+  assert.deepEqual([by.P2.lat, by.P2.lng], [14.9931, 103.1031]);
+  assert.deepEqual([by.P3.lat, by.P3.lng], [14.8366, 102.8941]);
+  assert.deepEqual([by.P4.lat, by.P4.lng], [14.993, 103.1029]);
+  for (const c of ["P5", "P6", "P7"]) assert.equal(by[c].lat, null, c);
+  const msgs = Object.fromEntries(r.problems.map(p => [p.code, p.msg]));
+  assert.match(msgs.P5, /ลิงก์ย่อ/);
+  assert.match(msgs.P6, /อ่านพิกัด/);
+  assert.match(msgs.P7, /อ่านพิกัด/);
+  assert.deepEqual(Object.keys(msgs).sort(), ["P5", "P6", "P7"]);
+  // A short-link row still counts for its own rural district
+  assert.equal(L.checkRural(get("ขอนแก่น", "พล"), r.branches).status, L.RESULT_TAKEN);
+});

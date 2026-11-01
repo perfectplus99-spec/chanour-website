@@ -149,11 +149,6 @@ export function parseCSV(text) {
   return rows.filter(r => r.some(c => c.trim() !== ""));
 }
 
-const num = s => {
-  const t = String(s ?? "").trim().replace(/[^\d.\-]/g, "");
-  return t === "" ? NaN : Number(t);
-};
-
 /** Accepts 2026-11-01, 1/11/2026, 01-11-2569 (Buddhist year) etc. Returns a Date at local midnight or null. */
 export function parseDate(s) {
   const t = String(s ?? "").trim();
@@ -173,6 +168,27 @@ export function formatThaiDate(dt) {
   return `${dt.getDate()} ${THAI_MONTHS[dt.getMonth()]} ${dt.getFullYear() + 543}`;
 }
 
+/** Read a branch's location from the two coordinate cells. Accepts
+ *  - ละติจูด / ลองจิจูด as two numbers (the original layout, swapped columns are fixed),
+ *  - both numbers in one cell: "14.9930, 103.1029" (what Google Maps copies),
+ *  - a full Google Maps link in either cell (…!3dLAT!4dLNG, …/@LAT,LNG, ?q=LAT,LNG …).
+ *  Short share links (maps.app.goo.gl) carry no coordinates and cannot be read in the browser. */
+export function readBranchCoords(latS, lngS) {
+  const plain = s => /^\s*-?\d+(\.\d+)?\s*$/.test(s);
+  if (plain(latS) && plain(lngS)) {
+    let lat = +latS, lng = +lngS;
+    if (inThailand(lng, lat) && !inThailand(lat, lng)) [lat, lng] = [lng, lat]; // columns swapped
+    return inThailand(lat, lng) ? { lat, lng } : { error: "outside" };
+  }
+  for (const cell of [latS, lngS]) {
+    if (!cell || plain(cell)) continue;
+    if (isShortMapsLink(cell)) return { error: "short" };
+    const ll = parseLatLng(cell);
+    if (ll) return inThailand(ll[0], ll[1]) ? { lat: ll[0], lng: ll[1] } : { error: "outside" };
+  }
+  return { error: latS || lngS ? "unreadable" : "missing" };
+}
+
 /**
  * Turn the sheet CSV into branch records.
  * Columns by position: รหัสสาขา | จังหวัด | อำเภอหรือเขต | ละติจูด | ลองจิจูด | วันที่บันทึก
@@ -181,26 +197,25 @@ export function formatThaiDate(dt) {
  */
 export function parseBranches(csvText, index) {
   const rows = parseCSV(csvText);
-  if (rows.length && isNaN(num(rows[0][3])) && isNaN(num(rows[0][4]))) rows.shift(); // header row
+  if (rows.length && !/\d/.test((rows[0][3] || "") + (rows[0][4] || ""))) rows.shift(); // header row (no digits in the coordinate cells)
   const branches = [], problems = [];
   rows.forEach((r, i) => {
     const [code = "", prov = "", dist = "", latS = "", lngS = "", dateS = ""] = r.map(c => String(c).trim());
     if (![code, prov, dist, latS, lngS].some(Boolean)) return;
     const line = i + 2;
-    let lat = num(latS), lng = num(lngS);
-    if (inThailand(lng, lat) && !inThailand(lat, lng)) [lat, lng] = [lng, lat]; // columns swapped
-    const coordsOk = Number.isFinite(lat) && Number.isFinite(lng) && inThailand(lat, lng);
+    const pos = readBranchCoords(latS, lngS);
+    const coordsOk = !pos.error;
     const { province, district } = findDistrict(index, prov, dist);
     const b = {
       code, provinceRaw: prov, districtRaw: dist,
       province: province || prov, district: district ? district.d : dist,
       districtCode: district ? district.code : null,
       type: district ? district.type : null,
-      lat: coordsOk ? lat : null, lng: coordsOk ? lng : null,
+      lat: coordsOk ? pos.lat : null, lng: coordsOk ? pos.lng : null,
       date: parseDate(dateS),
     };
     if (!district) problems.push({ line, code, msg: `หาอำเภอ "${dist}" จังหวัด "${prov}" ไม่พบ` });
-    if (!coordsOk) problems.push({ line, code, msg: `พิกัดไม่ถูกต้อง (${latS}, ${lngS})` });
+    if (!coordsOk) problems.push({ line, code, msg: COORD_ERRORS[pos.error] + (latS || lngS ? ` (${[latS, lngS].filter(Boolean).join(" | ")})` : "") });
     if (!b.date && dateS) problems.push({ line, code, msg: `อ่านวันที่ "${dateS}" ไม่ได้` });
     branches.push(b);
   });
@@ -208,6 +223,13 @@ export function parseBranches(csvText, index) {
   const latest = dates.length ? new Date(Math.max(...dates)) : null;
   return { branches, problems, latest };
 }
+
+const COORD_ERRORS = {
+  short: "เป็นลิงก์ย่อของแผนที่กูเกิล (maps.app.goo.gl) ซึ่งไม่มีพิกัดในลิงก์ ให้วางตัวเลขพิกัด หรือลิงก์แบบเต็มแทน",
+  outside: "พิกัดอยู่นอกประเทศไทย ตรวจว่าใส่ตัวเลขถูกหรือไม่",
+  unreadable: "อ่านพิกัดหรือลิงก์ไม่ได้ ให้วางตัวเลขพิกัด เช่น 14.9930, 103.1029 หรือลิงก์แผนที่กูเกิลแบบเต็ม",
+  missing: "ยังไม่ได้ใส่พิกัด",
+};
 
 // ---------- The decision ----------
 
