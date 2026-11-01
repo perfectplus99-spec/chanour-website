@@ -5,7 +5,7 @@ export default {
   // ลิงก์ไฟล์ CSV ของกูเกิลชีตที่เผยแพร่แล้ว (ไฟล์ > แชร์ > เผยแพร่ทางเว็บ > เลือกชีต > ค่าที่คั่นด้วยจุลภาค .csv)
   // หน้าตาประมาณ https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv
   // ถ้าเว้นว่าง หน้าเว็บจะแจ้งว่าระบบยังไม่พร้อม และจะไม่ตอบว่า "ว่าง"
-  SHEET_CSV_URL: "",
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvUl2cCiUQe5iNj6LGvuwiKkTM-uEDfGp3BT8bX3XxJPFc6YxOFAJyqd6dZX9e7HrGDTAut2ZiJ-my/pub?gid=1864848784&single=true&output=csv",
 
   // ปุ่ม "ทักทีมงานเพื่อยืนยันสิทธิ์" (เปลี่ยนเป็นลิงก์แชตซาปี้ได้ภายหลัง)
   CHAT_URL: "https://lin.ee/UHhTVER",

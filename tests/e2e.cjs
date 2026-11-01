@@ -41,7 +41,7 @@ const ok = (cond, name) => { console.log((cond ? "PASS " : "FAIL ") + name); if 
     const fetched = [];
     page.on("pageerror", e => { console.log("  pageerror:", e.message); failures++; });
     await page.route("**/check-branch/config.js", async route => {
-      const body = fs.readFileSync(path.join(ROOT, "check-branch/config.js"), "utf8").replace('SHEET_CSV_URL: ""', `SHEET_CSV_URL: "${SHEET}"`);
+      const body = fs.readFileSync(path.join(ROOT, "check-branch/config.js"), "utf8").replace(/SHEET_CSV_URL: "[^"]*"/, `SHEET_CSV_URL: "${SHEET}"`);
       route.fulfill({ status: 200, contentType: "text/javascript", body });
     });
     await page.route("https://sheet.test/**", route => { fetched.push(route.request().url()); status === "abort" ? route.abort() : route.fulfill({ status, contentType: "text/csv", body: csv, headers: { "Access-Control-Allow-Origin": "*" } }); });
@@ -148,7 +148,7 @@ const ok = (cond, name) => { console.log((cond ? "PASS " : "FAIL ") + name); if 
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, permissions: ["geolocation"], geolocation: { latitude: 16.4322, longitude: 102.8236 } });
     const page = await ctx.newPage();
-    await page.route("**/check-branch/config.js", r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(ROOT, "check-branch/config.js"), "utf8").replace('SHEET_CSV_URL: ""', `SHEET_CSV_URL: "${SHEET}"`) }));
+    await page.route("**/check-branch/config.js", r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(ROOT, "check-branch/config.js"), "utf8").replace(/SHEET_CSV_URL: "[^"]*"/, `SHEET_CSV_URL: "${SHEET}"`) }));
     await page.route("https://sheet.test/**", r => r.fulfill({ contentType: "text/csv", body: SAMPLE, headers: { "Access-Control-Allow-Origin": "*" } }));
     await page.route(/tile\.openstreetmap\.org|fonts\./, r => r.abort());
     await page.goto(base + "/check-branch/?จังหวัด=ขอนแก่น&อำเภอ=เมืองขอนแก่น");
@@ -178,6 +178,7 @@ const ok = (cond, name) => { console.log((cond ? "PASS " : "FAIL ") + name); if 
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const page = await ctx.newPage();
     await page.route(/tile\.openstreetmap\.org|fonts\./, r => r.abort());
+    await page.route("**/check-branch/config.js", r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(ROOT, "check-branch/config.js"), "utf8").replace(/SHEET_CSV_URL: "[^"]*"/, 'SHEET_CSV_URL: ""') }));
     await page.goto(base + "/check-branch/");
     await page.waitForFunction(() => document.body.dataset.state);
     ok(await page.isVisible("#loadError"), "ยังไม่ใส่ลิงก์ชีตในไฟล์ตั้งค่า → แจ้งให้โหลดหน้าใหม่");
