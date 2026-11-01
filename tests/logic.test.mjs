@@ -150,3 +150,19 @@ test("sheet rows may give the location as a pair, a full Google Maps link, or (f
   // A short-link row still counts for its own rural district
   assert.equal(L.checkRural(get("ขอนแก่น", "พล"), r.branches).status, L.RESULT_TAKEN);
 });
+
+test("column G (Google Maps link) is used when the coordinate columns are empty", () => {
+  // Output of the real Google Sheet with the auto-fill formulas (exported as CSV)
+  const csv = readFileSync(new URL("./fixtures/sheet-with-link-formulas.csv", import.meta.url), "utf8");
+  const r = L.parseBranches(csv, index);
+  const by = Object.fromEntries(r.branches.map(b => [b.code, b]));
+  assert.deepEqual([by.T1.lat, by.T1.lng], [14.9931, 103.1031]);
+  assert.deepEqual([by.T9.lat, by.T9.lng], [14.993111, 103.102889]);
+  const msgs = Object.fromEntries(r.problems.map(p => [p.code, p.msg]));
+  assert.deepEqual(Object.keys(msgs).sort(), ["T5", "T7", "T8"]);
+  assert.match(msgs.T5, /ลิงก์ย่อ/);
+  // Formulas wiped out: column G alone is still read
+  const raw = 'a,b,c,d,e,f,g\nX1,บุรีรัมย์,นางรอง,,,2026-11-01,"https://www.google.com/maps/place/x/data=!3d14.6336!4d102.7902"\nX2,บุรีรัมย์,นางรอง,,,2026-11-01,"14.63, 102.79"';
+  const r2 = L.parseBranches(raw, index);
+  assert.deepEqual(r2.branches.map(b => [b.lat, b.lng]), [[14.6336, 102.7902], [14.63, 102.79]]);
+});

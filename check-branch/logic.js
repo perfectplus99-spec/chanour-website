@@ -200,10 +200,13 @@ export function parseBranches(csvText, index) {
   if (rows.length && !/\d/.test((rows[0][3] || "") + (rows[0][4] || ""))) rows.shift(); // header row (no digits in the coordinate cells)
   const branches = [], problems = [];
   rows.forEach((r, i) => {
-    const [code = "", prov = "", dist = "", latS = "", lngS = "", dateS = ""] = r.map(c => String(c).trim());
+    const [code = "", prov = "", dist = "", latS = "", lngS = "", dateS = "", linkS = ""] = r.map(c => String(c).trim());
     if (![code, prov, dist, latS, lngS].some(Boolean)) return;
     const line = i + 2;
-    const pos = readBranchCoords(latS, lngS);
+    // Column G (optional) holds the pasted Google Maps link / pair; the sheet's formulas fill D and E from it.
+    // If those formulas are missing or were overwritten, read column G directly.
+    let pos = readBranchCoords(latS, lngS);
+    if (pos.error && linkS) pos = readBranchCoords(linkS, "");
     const coordsOk = !pos.error;
     const { province, district } = findDistrict(index, prov, dist);
     const b = {
@@ -215,7 +218,7 @@ export function parseBranches(csvText, index) {
       date: parseDate(dateS),
     };
     if (!district) problems.push({ line, code, msg: `หาอำเภอ "${dist}" จังหวัด "${prov}" ไม่พบ` });
-    if (!coordsOk) problems.push({ line, code, msg: COORD_ERRORS[pos.error] + (latS || lngS ? ` (${[latS, lngS].filter(Boolean).join(" | ")})` : "") });
+    if (!coordsOk) problems.push({ line, code, msg: COORD_ERRORS[pos.error] + (latS || lngS || linkS ? ` (${[latS, lngS, linkS].filter(Boolean).join(" | ")})` : "") });
     if (!b.date && dateS) problems.push({ line, code, msg: `อ่านวันที่ "${dateS}" ไม่ได้` });
     branches.push(b);
   });
