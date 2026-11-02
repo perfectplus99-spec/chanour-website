@@ -70,9 +70,10 @@
   .brand b { font-family: var(--f-display); font-weight: 900; font-size: 1.6rem; line-height: 1; }
   .brand small { display: block; font-family: var(--f-display); font-weight: 600; font-size: .65rem; letter-spacing: .32em; opacity: .85; }
   .nav-links { display: flex; gap: 22px; align-items: center; font-family: var(--f-display); font-weight: 500; }
-  .nav-links a { text-decoration: none; opacity: .92; }
+  .nav-links a { text-decoration: none; opacity: .92; white-space: nowrap; }
   .nav-links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 5px; }
   .nav-links .btn { padding: 8px 18px; font-size: var(--s-sm); }
+  @media (max-width: 1200px) { .nav-links { gap: 16px; } .nav-links a.nav-opt { display: none; } }
   @media (max-width: 880px) { .nav-links a:not(.btn) { display: none; } }
   @media (max-width: 520px) {
     .nav .wrap { gap: 8px; }
@@ -240,6 +241,28 @@
     .kit-card.collapsed li:nth-child(n+7) { display: none; }
     .kit-card .kit-more { display: block; }
   }
+  /* ---------- Franchise terms ---------- */
+  .terms { background: var(--paper); }
+  .terms-grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 18px; align-items: start; }
+  .term-card { background: var(--white); border: 2px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 14px; min-width: 0; }
+  .term-card h3 { display: flex; align-items: center; gap: 8px; font-size: 1.25rem; font-weight: 800; }
+  .term-card h3 svg { width: 24px; height: 24px; flex: none; color: var(--red); }
+  .term-area { border-color: var(--red); }
+  .term-area .btn { justify-self: start; font-size: var(--s-sm); padding: 10px 20px; }
+  .area-rules { list-style: none; margin: 0; padding: 0; display: grid; }
+  .area-rules li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+  .area-rules li:first-child { padding-top: 0; }
+  .area-rules span { font-family: var(--f-display); font-weight: 600; }
+  .area-rules b { font-family: var(--f-display); font-weight: 800; color: var(--red); white-space: nowrap; }
+  .area-rules small { grid-column: 1 / -1; font-size: var(--s-xs); color: var(--muted); }
+  .tick-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .tick-list li { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 500; }
+  .tick-list svg { width: 22px; height: 22px; flex: none; padding: 4px; border-radius: 50%; background: var(--red); color: var(--white); }
+  .term-excl .tick-list svg { background: var(--ink); }
+  .terms-note { margin-top: 18px; display: grid; gap: 6px; padding: 18px 22px; border-radius: 18px; background: var(--tea-soft); border: 2px dashed var(--tea); }
+  .terms-note b { font-family: var(--f-display); font-weight: 700; }
+  @media (max-width: 960px) { .terms-grid { grid-template-columns: 1fr 1fr; } .term-area { grid-column: 1 / -1; } }
+  @media (max-width: 600px) { .terms-grid { grid-template-columns: 1fr; } }
   .kit-check { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 18px 22px; border-radius: 20px; background: var(--paper); border: 2px dashed var(--red); }
   .kit-check p { color: var(--muted); }
   .kit-check b { font-family: var(--f-display); font-weight: 700; color: var(--ink); }
@@ -347,10 +370,11 @@
       <span><b>ชานัว</b><small>CHANOUR</small></span>
     </a>
     <div class="nav-links">
-      <a href="#menu">เมนู</a>
-      <a href="#formats">รูปแบบร้าน</a>
+      <a class="nav-opt" href="#menu">เมนู</a>
+      <a class="nav-opt" href="#formats">รูปแบบร้าน</a>
       <a href="#price">ค่าแฟรนไชส์</a>
       <a href="#kit">ได้อะไรบ้าง</a>
+      <a href="#terms">เงื่อนไข</a>
       <a href="#calc">คำนวณกำไร</a>
       <a class="btn btn-ghost nav-check" href="/check-branch/">เช็คสาขาว่าง</a>
       <a class="btn btn-white" href="#contact">สนใจแฟรนไชส์</a>
@@ -490,7 +514,7 @@
           <h3>ซุ้ม</h3>
           <p>ตั้งได้ทั้งตลาดนัด ลานหน้าร้าน และงานอีเวนต์ เคลื่อนย้ายสะดวก</p>
           <div class="styles"><span>ซุ้มมาตรฐาน</span><span>ซุ้มทรงจั่ว</span><span>ซุ้มมินิมอล</span></div>
-          <a class="btn btn-outline" href="#contact" data-pick="booth">สอบถามราคาซุ้ม</a>
+          <a class="btn btn-outline" href="#contact" data-pick="booth">สอบถามรูปแบบซุ้ม</a>
         </div>
         <img src="assets/fmt-booth.jpg?v=3" width="1956" height="640" alt="ซุ้มชานัว 3 แบบ ตกแต่งสีแดงขาวลายคลื่น มีป้ายชานัวบนหลังคา จอเมนูเครื่องดื่ม และเคาน์เตอร์สแตนเลส">
       </article>
@@ -500,7 +524,7 @@
           <h3>คีออส</h3>
           <p>เคาน์เตอร์เปิดรอบด้าน มีป้ายไฟและจอเมนู เหมาะกับพื้นที่ที่คนเดินผ่านทั้งวัน</p>
           <div class="styles"><span>คีออสมาตรฐาน</span><span>คีออสรูปทรงโค้ง</span><span>คีออสทรงบ้าน</span></div>
-          <a class="btn btn-outline" href="#contact" data-pick="kiosk">สอบถามราคาคีออส</a>
+          <a class="btn btn-outline" href="#contact" data-pick="kiosk">สอบถามรูปแบบคีออส</a>
         </div>
         <img src="assets/fmt-kiosk.jpg?v=2" width="1312" height="350" alt="คีออสชานัว 3 แบบ: คีออสมาตรฐาน คีออสรูปทรงโค้ง คีออสทรงบ้าน">
       </article>
@@ -510,12 +534,12 @@
           <h3>หน้าร้านอาคารพาณิชย์</h3>
           <p>หน้าร้านเต็มรูปแบบ ป้ายใหญ่มองเห็นจากถนน มีพื้นที่เคาน์เตอร์และจัดเก็บของมากที่สุด</p>
           <div class="styles"><span>หน้าร้านมาตรฐาน</span><span>หน้าร้านโค้ง</span><span>หน้าร้านมินิมอล</span></div>
-          <a class="btn btn-outline" href="#contact" data-pick="shop">สอบถามราคาหน้าร้าน</a>
+          <a class="btn btn-outline" href="#contact" data-pick="shop">สอบถามรูปแบบหน้าร้าน</a>
         </div>
         <img src="assets/fmt-shop.jpg?v=2" width="1312" height="500" alt="หน้าร้านชานัวในอาคารพาณิชย์ 3 แบบ: หน้าร้านมาตรฐาน หน้าร้านโค้ง หน้าร้านมินิมอล">
       </article>
     </div>
-    <p class="fmt-note">ภาพเป็นตัวอย่างการตกแต่ง · สอบถามราคาและรายละเอียดของแต่ละรูปแบบได้ทาง LINE</p>
+    <p class="fmt-note">ภาพเป็นตัวอย่างการตกแต่ง · หลังเซ็นสัญญา ชานัวส่งแบบซุ้ม เคาน์เตอร์ และการตกแต่งร้านเป็นไฟล์รูปภาพ ผู้ลงทุนผลิตและตกแต่งร้านเอง</p>
   </div>
 </section>
 
@@ -546,7 +570,7 @@
         <span class="eyebrow">ค่าแฟรนไชส์</span>
         <h2 id="price-h">จ่ายครั้งเดียว จบ ไม่มีค่าใช้จ่ายแฝง</h2>
         <p class="price-num"><b>39,000</b><span>บาท</span></p>
-        <p class="price-note">ได้อุปกรณ์ 20 รายการ วัตถุดิบล็อตแรก 20 รายการ และถุงแบรนด์ชานัว 100 ใบ · ไม่รวมค่าตกแต่งร้าน ซึ่งขึ้นกับรูปแบบร้านที่เลือก</p>
+        <p class="price-note">ได้อุปกรณ์ 20 รายการ วัตถุดิบล็อตแรก 20 รายการ และถุงแบรนด์ชานัว 100 ใบ · ไม่รวมซุ้ม เคาน์เตอร์ และการตกแต่งร้าน <a href="#terms">ดูเงื่อนไข</a></p>
         <div class="price-cta">
           <a class="btn btn-white" href="#contact">จองสิทธิ์ทาง LINE</a>
           <a class="btn btn-ghost" href="/check-branch/">เช็คสาขาว่าง</a>
@@ -630,6 +654,49 @@
   </div>
 </section>
 
+<section class="terms" id="terms" aria-labelledby="terms-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">เงื่อนไขแฟรนไชส์</span>
+      <h2 id="terms-h">อ่านเงื่อนไขให้ครบ ก่อนตัดสินใจ</h2>
+      <p>พื้นที่เปิดร้าน วัตถุดิบที่ต้องซื้อ และสิ่งที่ไม่รวมในค่าแฟรนไชส์</p>
+    </div>
+    <div class="terms-grid">
+      <article class="term-card term-area">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>เงื่อนไขพื้นที่เปิดแฟรนไชส์</h3>
+        <ul class="area-rules">
+          <li><span>กรุงเทพฯ และปริมณฑล</span><b>ห่างกัน 3 กม.</b><small>นนทบุรี ปทุมธานี สมุทรปราการ สมุทรสาคร นครปฐม</small></li>
+          <li><span>อำเภอเมืองของทุกจังหวัด</span><b>ห่างกัน 3 กม.</b><small>วัดระยะระหว่างสาขาแบบเส้นตรง</small></li>
+          <li><span>อำเภอทั่วไป</span><b>1 สาขา / อำเภอ</b></li>
+        </ul>
+        <a class="btn btn-red" href="/check-branch/">เช็คว่าทำเลของคุณยังว่างไหม</a>
+      </article>
+      <article class="term-card">
+        <h3>วัตถุดิบบังคับซื้อ</h3>
+        <ul class="tick-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ใบชาไทย ชาเขียว</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ผงโกโก้</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>กาแฟ และโอเลี้ยง</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ถุงเก็บความเย็นของแบรนด์</li>
+        </ul>
+      </article>
+      <article class="term-card term-excl">
+        <h3>สิ่งที่ไม่รวมในค่าแฟรนไชส์</h3>
+        <ul class="tick-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>การหาโลเคชั่น</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>การหาพนักงาน</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>ซุ้ม และเคาน์เตอร์</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>การรีโนเวทและปรับปรุงร้าน</li>
+        </ul>
+      </article>
+    </div>
+    <div class="terms-note">
+      <p><b>หลังเซ็นสัญญาเรียบร้อย</b> ชานัวจะส่งแบบซุ้ม เคาน์เตอร์ และการตกแต่งร้านให้ผู้ลงทุนเป็นไฟล์รูปภาพ</p>
+      <p><b>ผู้ลงทุนรับผิดชอบการผลิตซุ้ม เคาน์เตอร์ และการตกแต่งปรับปรุงร้านเอง</b></p>
+    </div>
+  </div>
+</section>
+
 <div class="waves" aria-hidden="true"></div>
 <section class="calc" id="calc" aria-labelledby="calc-h">
   <div class="wrap">
@@ -699,8 +766,8 @@
       <li><h3>ทัก LINE ปรึกษา</h3><p>เล่าทำเลและงบที่มี ทีมแนะนำรูปแบบร้านที่เหมาะ</p></li>
       <li><h3>เลือกรูปแบบร้าน</h3><p>เลือกซุ้ม คีออส หรือหน้าร้าน และสไตล์การตกแต่ง</p></li>
       <li><h3>ตกลงและชำระเงิน</h3><p>สรุปรายละเอียดแพ็กเกจและทำข้อตกลงแฟรนไชส์</p></li>
-      <li><h3>รับของและเรียนสูตร</h3><p>รับอุปกรณ์ 20 รายการ วัตถุดิบ 20 รายการ และสูตรชง</p></li>
-      <li><h3>เปิดร้าน</h3><p>ตั้งร้าน ติดป้าย และเริ่มขายถุงแรกของคุณ</p></li>
+      <li><h3>รับของ แบบร้าน และสูตร</h3><p>รับอุปกรณ์ 20 รายการ วัตถุดิบ 20 รายการ สูตรชง และไฟล์แบบซุ้ม เคาน์เตอร์ และการตกแต่งร้าน</p></li>
+      <li><h3>เปิดร้าน</h3><p>ผลิตซุ้มหรือตกแต่งร้านตามแบบ ติดป้าย แล้วเริ่มขายถุงแรกของคุณ</p></li>
     </ol>
   </div>
 </section>
@@ -715,7 +782,10 @@
       <details open><summary>ในแพ็กเกจได้อะไรบ้าง?</summary><p>อุปกรณ์ 20 รายการ เช่น หม้อต้มน้ำไฟฟ้า 11 ลิตร เครื่องตีฟองนม ตาชั่ง และขวดบีบ วัตถุดิบ 20 รายการ เช่น ชาไทย ชาเขียว กาแฟโบราณ โกโก้ และถุงแบรนด์ชานัว 100 ใบ (นัวฮิต 80 ใบ นัวแนะนำ 20 ใบ) ดูรายการครบได้ในหัวข้อ "ได้อะไรบ้าง"</p></details>
       <details><summary>ขายราคาเท่าไร?</summary><p>เมนูนัวฮิต 12 รายการ ถุงละ 35 บาท หรือ 3 ถุง 100 บาท เมนูนัวแนะนำ 3 รายการ ถุงละ 45 บาท มาในถุงลายพรีเมียม</p></details>
       <details><summary>มีรูปแบบร้านแบบไหนบ้าง?</summary><p>มี 3 รูปแบบ คือ ซุ้มขนาด 3×3 เมตร คีออส และหน้าร้านในอาคารพาณิชย์ แต่ละแบบมี 3 สไตล์การตกแต่งให้เลือก</p></details>
-      <details><summary>ค่าแฟรนไชส์เท่าไร?</summary><p>ค่าแฟรนไชส์ 39,000 บาท จ่ายครั้งเดียว ไม่มีค่ารายเดือน ไม่มีค่ารายปี และไม่เก็บเปอร์เซ็นต์จากยอดขาย ส่วนค่าตกแต่งร้านขึ้นกับรูปแบบร้านและสไตล์ที่เลือก ทัก LINE ชานัวเพื่อรับใบเสนอราคาค่าตกแต่งของแต่ละรูปแบบ</p></details>
+      <details><summary>ค่าแฟรนไชส์เท่าไร?</summary><p>ค่าแฟรนไชส์ 39,000 บาท จ่ายครั้งเดียว ไม่มีค่ารายเดือน ไม่มีค่ารายปี และไม่เก็บเปอร์เซ็นต์จากยอดขาย ไม่รวมการหาโลเคชั่น การหาพนักงาน ซุ้มและเคาน์เตอร์ และการรีโนเวทปรับปรุงร้าน</p></details>
+      <details><summary>ใครเป็นคนทำซุ้ม เคาน์เตอร์ และตกแต่งร้าน?</summary><p>หลังเซ็นสัญญาเรียบร้อย ชานัวจะส่งแบบซุ้ม เคาน์เตอร์ และการตกแต่งร้านให้เป็นไฟล์รูปภาพ ผู้ลงทุนเป็นผู้รับผิดชอบการผลิตซุ้ม เคาน์เตอร์ และการตกแต่งปรับปรุงร้านเอง</p></details>
+      <details><summary>มีวัตถุดิบที่ต้องซื้อจากแบรนด์ไหม?</summary><p>มี วัตถุดิบบังคับซื้อ ได้แก่ ใบชาไทย ชาเขียว ผงโกโก้ กาแฟและโอเลี้ยง และถุงเก็บความเย็นของแบรนด์</p></details>
+      <details><summary>เปิดใกล้สาขาอื่นได้แค่ไหน?</summary><p>กรุงเทพฯ ปริมณฑล และอำเภอเมืองของทุกจังหวัด ต้องห่างจากสาขาอื่นอย่างน้อย 3 กม. ส่วนอำเภอทั่วไปเปิดได้ 1 สาขาต่ออำเภอ <a href="/check-branch/">เช็คสาขาว่างได้ที่นี่</a></p></details>
       <details><summary>ไม่เคยขายเครื่องดื่มมาก่อน เปิดได้ไหม?</summary><p>ได้ ทุกเมนูชงด้วยช้อนตวงและตาชั่งที่ให้ไปในแพ็กเกจ ทำตามสูตรก็ได้รสเดียวกับสาขาอื่น</p></details>
     </div>
   </div>
