@@ -31,6 +31,8 @@
     --s-xs: .875rem; --s-sm: 1rem; --s-md: 1.125rem; --s-lg: 1.5rem; --s-xl: 2.25rem; --s-xxl: clamp(2.6rem, 7vw, 4.75rem);
     --wrap: 1120px;
     --radius: 18px;
+    --check: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%) 0 0 / 40px 40px, linear-gradient(rgba(255,255,255,.07) 50%, transparent 50%) 0 0 / 40px 40px;
+    --check-red: linear-gradient(90deg, rgba(217,0,14,.035) 50%, transparent 50%) 0 0 / 32px 32px, linear-gradient(rgba(217,0,14,.035) 50%, transparent 50%) 0 0 / 32px 32px;
     --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 30'%3E%3Cg fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M0 10 Q20 2 40 10 T80 10'/%3E%3Cpath d='M0 21 Q20 13 40 21 T80 21'/%3E%3C/g%3E%3C/svg%3E");
   }
   * { box-sizing: border-box; }
@@ -93,6 +95,7 @@
   .hero-tag { display: inline-flex; align-self: start; justify-self: start; gap: 8px; align-items: center; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); padding: 6px 14px; border-radius: 999px; font-family: var(--f-display); font-weight: 600; font-size: var(--s-xs); letter-spacing: .08em; }
   .hero h1 { font-size: var(--s-xxl); font-weight: 900; letter-spacing: -.01em; }
   .hero h1 em { font-style: normal; display: inline-block; background: var(--white); color: var(--red); padding: 0 .18em; border-radius: .12em; transform: rotate(-2deg); }
+  .nowrap { white-space: nowrap; }
   .hero-lead { font-size: var(--s-md); max-width: 34rem; opacity: .95; }
   .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
   .hero-cta .btn svg { width: 20px; height: 20px; flex: none; }
@@ -241,8 +244,56 @@
     .kit-card.collapsed li:nth-child(n+7) { display: none; }
     .kit-card .kit-more { display: block; }
   }
+
+  /* ---------- Brand graphics: CI red/white, double wave, tablecloth check, ice and tea bags ---------- */
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; }
+  .eyebrow::before { content: ""; width: 26px; height: 12px; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 20'%3E%3Cg fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M2 7 Q12 1 22 7 T42 7'/%3E%3Cpath d='M2 15 Q12 9 22 15 T42 15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 20'%3E%3Cg fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M2 7 Q12 1 22 7 T42 7'/%3E%3Cpath d='M2 15 Q12 9 22 15 T42 15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; }
+  .sec-head h2 em { font-style: normal; background: linear-gradient(transparent 60%, var(--tea-soft) 60%, var(--tea-soft) 92%, transparent 92%); padding: 0 .06em; }
+
+  .hero { background: var(--check), var(--red); }
+  .hero-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .hero-deco svg { position: absolute; color: var(--white); }
+  .hero-deco .d1 { width: 74px; top: 9%; right: 5%; opacity: .26; transform: rotate(14deg); }
+  .hero-deco .d2 { width: 44px; top: 44%; right: 41%; opacity: .2; transform: rotate(-12deg); }
+  .hero-deco .d3 { width: 30px; bottom: 16%; right: 3%; opacity: .3; }
+  .hero-deco .d4 { width: 18px; top: 26%; right: 30%; opacity: .32; }
+  .hero-deco .d5 { width: 54px; bottom: 7%; left: -14px; opacity: .14; transform: rotate(-20deg); }
+  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+    .hero-deco .d1, .hero-deco .d2, .hero-deco .d3 { animation: drift 7s ease-in-out infinite; }
+    .hero-deco .d2 { animation-duration: 9s; animation-delay: -3s; }
+    .hero-deco .d3 { animation-duration: 6s; animation-delay: -1s; }
+  }
+  @keyframes drift { 50% { translate: 0 -10px; } }
+  @media (max-width: 820px) {
+    .hero-deco .d1 { width: 52px; top: 3%; right: 4%; }
+    .hero-deco .d2 { top: auto; bottom: 30%; right: auto; left: 4%; }
+    .hero-deco .d4 { top: auto; bottom: 38%; right: 8%; }
+  }
+  .hero .wrap { position: relative; }
+
+  .ticker { overflow: hidden; background: var(--white); border-bottom: 2px solid var(--line); }
+  .ticker-track { display: flex; width: max-content; animation: ticker 38s linear infinite; }
+  .ticker-track span { display: inline-flex; align-items: center; gap: 14px; padding: 10px 14px; font-family: var(--f-display); font-weight: 700; font-size: var(--s-sm); color: var(--red); white-space: nowrap; }
+  .ticker-track svg { width: 18px; height: 18px; color: var(--tea); flex: none; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+
+  .menu, .terms, .faq { background: var(--check-red), var(--paper); }
+  .price { background: var(--check), var(--red); }
+
+  .step-list li { position: relative; overflow: hidden; }
+  .step-list li::after { content: counter(st, decimal-leading-zero); position: absolute; right: 14px; top: 10px; font-family: var(--f-display); font-weight: 900; font-size: 3.2rem; line-height: 1; color: rgba(217,0,14,.08); pointer-events: none; }
+  .step-list li > * { position: relative; }
+
+  .why-card { position: relative; overflow: hidden; transition: border-color .2s ease, translate .2s ease; }
+  .why-card::after { content: ""; position: absolute; right: -10px; bottom: -6px; width: 70px; height: 32px; background: var(--red); opacity: .06; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 20'%3E%3Cg fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M2 7 Q12 1 22 7 T42 7'/%3E%3Cpath d='M2 15 Q12 9 22 15 T42 15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 20'%3E%3Cg fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M2 7 Q12 1 22 7 T42 7'/%3E%3Cpath d='M2 15 Q12 9 22 15 T42 15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; }
+  .why-card:hover { border-color: var(--red); translate: 0 -3px; }
+
+  /* Gentle reveal on scroll (only when JS runs and motion is welcome) */
+  .reveal-on .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal-on .reveal.in { opacity: 1; transform: none; }
+
   /* ---------- Franchise terms ---------- */
-  .terms { background: var(--paper); }
+  .terms { background: var(--check-red), var(--paper); }
   .terms-grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 18px; align-items: start; }
   .term-card { background: var(--white); border: 2px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 14px; min-width: 0; }
   .term-card h3 { display: flex; align-items: center; gap: 8px; font-size: 1.25rem; font-weight: 800; }
@@ -383,11 +434,12 @@
 </nav>
 
 <header class="hero" id="top">
+  <div class="hero-deco" aria-hidden="true"><svg class="d1" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="5" width="30" height="30" rx="8"/><path d="M12 13 q4-3 9-2" stroke-linecap="round"/></svg><svg class="d2" viewBox="0 0 40 52" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M14 4 l4 7 h4 l4-7"/><path d="M10 13 h20 l3 30 a5 5 0 0 1-5 5 H12 a5 5 0 0 1-5-5 z"/><path d="M28 2 l-6 22"/></svg><svg class="d3" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="5" width="30" height="30" rx="8"/><path d="M12 13 q4-3 9-2" stroke-linecap="round"/></svg><svg class="d4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="10" cy="10" r="7"/></svg><svg class="d5" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="5" width="30" height="30" rx="8"/><path d="M12 13 q4-3 9-2" stroke-linecap="round"/></svg></div>
   <div class="wrap">
     <div class="hero-copy">
       <span class="hero-tag">GOOD DRINK · GOOD DAY</span>
       <h1>ชาถุงหอมเข้ม <em>ขายง่าย</em> กำไรนัวทุกถุง</h1>
-      <p class="hero-lead">เปิดร้านชาถุงแบรนด์ชานัว ขายถุงละ 35 บาท 3 ถุง 100 บาท เลือกได้ทั้งซุ้ม คีออส และหน้าร้าน พร้อมอุปกรณ์ 20 รายการ และวัตถุดิบ 20 รายการ</p>
+      <p class="hero-lead">เปิดร้านชาถุงแบรนด์ชานัว ขายถุงละ 35 บาท 3 ถุง 100 บาท เลือกได้ทั้งซุ้ม <span class="nowrap">คีออส</span> และหน้าร้าน พร้อมอุปกรณ์ 20 รายการ และวัตถุดิบ 20 รายการ</p>
       <a class="hero-price" href="#price">
         <span class="hp-amount"><small>ค่าแฟรนไชส์</small><b>39,000.-</b><span>จ่ายครั้งเดียว</span></span>
         <span class="hp-free">
@@ -409,20 +461,21 @@
       </div>
     </div>
     <div class="hero-art">
-      <div class="disc"><img src="assets/mascot.jpg" alt="น้องชานัว มาสคอตถุงชาไทยใส่น้ำแข็ง ชูนิ้วโป้ง" width="700" height="800"></div>
+      <div class="disc"><img src="assets/mascot.webp" fetchpriority="high" alt="น้องชานัว มาสคอตถุงชาไทยใส่น้ำแข็ง ชูนิ้วโป้ง" width="700" height="800"></div>
       <div class="price-tag"><small>ถุงละ</small><b>35.-</b></div>
     </div>
   </div>
 </header>
 <div class="waves" aria-hidden="true"></div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>GOOD DRINK · GOOD DAY</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ชาถุงหอมเข้ม</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ถุงละ 35.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>3 ถุง 100.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ค่าแฟรนไชส์ 39,000.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ไม่มีค่ารายเดือน</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ไม่เก็บ % ยอดขาย</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>GOOD DRINK · GOOD DAY</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ชาถุงหอมเข้ม</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ถุงละ 35.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>3 ถุง 100.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ค่าแฟรนไชส์ 39,000.-</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ไม่มีค่ารายเดือน</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8.2 2.6 10 5.5h4l1.8-2.9a.8.8 0 0 1 1.4.8L15.8 5.7A1 1 0 0 1 17 6.7l1 12.4A2.7 2.7 0 0 1 15.3 22H8.7A2.7 2.7 0 0 1 6 19.1l1-12.4a1 1 0 0 1 1.2-1L6.8 3.4a.8.8 0 0 1 1.4-.8z"/></svg>ไม่เก็บ % ยอดขาย</span></div></div>
 
 <section class="promo-band" id="promo" aria-label="โปรโมชั่น">
   <div class="wrap">
-    <a class="promo-banner" href="#contact"><img src="assets/promo-banner.webp" width="2000" height="667" alt="จองสิทธิ์เปิดร้านชานัวภายใน 31 ธ.ค. นี้เท่านั้น รับฟรี! อินฟลูชื่อดังประจำจังหวัดทำคลิปรีวิวในวันเปิดร้าน ให้คนทั้งจังหวัดรู้จักร้านคุณตั้งแต่วันแรก กดเพื่อจองสิทธิ์"></a>
+    <a class="promo-banner" href="#contact"><img loading="lazy" decoding="async" src="assets/promo-banner.webp" width="2000" height="667" alt="จองสิทธิ์เปิดร้านชานัวภายใน 31 ธ.ค. นี้เท่านั้น รับฟรี! อินฟลูชื่อดังประจำจังหวัดทำคลิปรีวิวในวันเปิดร้าน ให้คนทั้งจังหวัดรู้จักร้านคุณตั้งแต่วันแรก กดเพื่อจองสิทธิ์"></a>
     <!-- Phones get the HTML card: the banner's text is too small at that width -->
     <div class="promo-card">
       <figure class="promo-shot">
-        <img src="assets/influencer-review.jpg" width="900" height="1200" alt="อินฟลูเอนเซอร์ถือถุงชาไทยชานัว ถ่ายคลิปรีวิวหน้าร้านในวันเปิดร้าน">
+        <img loading="lazy" decoding="async" src="assets/influencer-review.webp" width="900" height="1200" alt="อินฟลูเอนเซอร์ถือถุงชาไทยชานัว ถ่ายคลิปรีวิวหน้าร้านในวันเปิดร้าน">
         <span class="promo-rec">REC</span>
         <figcaption>ภาพจำลอง</figcaption>
       </figure>
@@ -441,7 +494,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">ทำไมต้องชานัว</span>
-      <h2 id="why-h">ร้านเล็ก ลงทุนพอดี ขายได้ทั้งวัน</h2>
+      <h2 id="why-h">ร้านเล็ก <em>ลงทุนพอดี</em> ขายได้ทั้งวัน</h2>
       <p>ชาถุงเป็นเครื่องดื่มที่คนไทยคุ้นมือ ซื้อง่าย ถือสะดวก ชานัวทำให้หอมเข้มขึ้นและดูน่าซื้อขึ้น</p>
     </div>
     <div class="why-grid">
@@ -473,13 +526,13 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">เมนู</span>
-      <h2 id="menu-h">15 เมนู แบ่ง 2 ราคา ขายได้ทั้งวัน</h2>
+      <h2 id="menu-h"><em>15 เมนู</em> แบ่ง 2 ราคา ขายได้ทั้งวัน</h2>
       <p>เมนูนัวฮิตสำหรับขายประจำ และเมนูนัวแนะนำราคาสูงขึ้นในถุงลายพรีเมียม</p>
     </div>
     <div class="menu-grid">
       <article class="board">
         <div class="board-head"><h3>นัวฮิต</h3><span class="pr">35 บาท</span></div>
-        <img src="assets/menu-hit.jpg" width="1400" height="1050" alt="เมนูนัวฮิต 35 บาท: ชา (ชาไทย ชาเขียวนม ชามะนาว) โกโก้และมอลต์ (โกโก้ ไมโล โอวัลติน) กาแฟ (กาแฟโบราณ โอเลี้ยงยกล้อ) นมและผลไม้ (นมสด นมชมพู บ๊วยมะนาว) 3 ถุง 100 บาท">
+        <img loading="lazy" decoding="async" src="assets/menu-hit.webp" width="1400" height="1050" alt="เมนูนัวฮิต 35 บาท: ชา (ชาไทย ชาเขียวนม ชามะนาว) โกโก้และมอลต์ (โกโก้ ไมโล โอวัลติน) กาแฟ (กาแฟโบราณ โอเลี้ยงยกล้อ) นมและผลไม้ (นมสด นมชมพู บ๊วยมะนาว) 3 ถุง 100 บาท">
         <div class="board-list">
           <span class="hot">ชาไทย ★</span><span>ชาเขียวนม</span><span>ชามะนาว</span>
           <span class="hot">โกโก้ ★</span><span>ไมโล</span><span>โอวัลติน</span>
@@ -489,7 +542,7 @@
       </article>
       <article class="board">
         <div class="board-head"><h3>นัวแนะนำ</h3><span class="pr">45 บาท</span></div>
-        <img src="assets/menu-rec.jpg" width="1400" height="1050" alt="เมนูนัวแนะนำ 45 บาท: โอเลี้ยงแหกโค้ง บ๊วยหางแดง ชาก๊วยยกล้อ พร้อมถุงลายพรีเมียม">
+        <img loading="lazy" decoding="async" src="assets/menu-rec.webp" width="1400" height="1050" alt="เมนูนัวแนะนำ 45 บาท: โอเลี้ยงแหกโค้ง บ๊วยหางแดง ชาก๊วยยกล้อ พร้อมถุงลายพรีเมียม">
         <div class="board-list">
           <span>โอเลี้ยงแหกโค้ง</span><span>บ๊วยหางแดง</span><span>ชาก๊วยยกล้อ</span><span>มาในถุงลายพรีเมียม</span>
         </div>
@@ -504,7 +557,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">รูปแบบร้าน</span>
-      <h2 id="fmt-h">3 รูปแบบร้าน เลือกให้เข้ากับทำเล</h2>
+      <h2 id="fmt-h"><em>3 รูปแบบร้าน</em> เลือกให้เข้ากับทำเล</h2>
       <p>แต่ละรูปแบบมี 3 สไตล์ให้เลือก ตกแต่งตาม CI ชานัว ทั้งป้าย เคาน์เตอร์ และเมนูบอร์ด</p>
     </div>
     <div class="fmt-list">
@@ -516,7 +569,7 @@
           <div class="styles"><span>ซุ้มมาตรฐาน</span><span>ซุ้มทรงจั่ว</span><span>ซุ้มมินิมอล</span></div>
           <a class="btn btn-outline" href="#contact" data-pick="booth">สอบถามรูปแบบซุ้ม</a>
         </div>
-        <img src="assets/fmt-booth.jpg?v=3" width="1956" height="640" alt="ซุ้มชานัว 3 แบบ ตกแต่งสีแดงขาวลายคลื่น มีป้ายชานัวบนหลังคา จอเมนูเครื่องดื่ม และเคาน์เตอร์สแตนเลส">
+        <img loading="lazy" decoding="async" src="assets/fmt-booth.webp" width="1956" height="640" alt="ซุ้มชานัว 3 แบบ ตกแต่งสีแดงขาวลายคลื่น มีป้ายชานัวบนหลังคา จอเมนูเครื่องดื่ม และเคาน์เตอร์สแตนเลส">
       </article>
       <article class="fmt">
         <div class="fmt-text">
@@ -526,7 +579,7 @@
           <div class="styles"><span>คีออสมาตรฐาน</span><span>คีออสรูปทรงโค้ง</span><span>คีออสทรงบ้าน</span></div>
           <a class="btn btn-outline" href="#contact" data-pick="kiosk">สอบถามรูปแบบคีออส</a>
         </div>
-        <img src="assets/fmt-kiosk.jpg?v=2" width="1312" height="350" alt="คีออสชานัว 3 แบบ: คีออสมาตรฐาน คีออสรูปทรงโค้ง คีออสทรงบ้าน">
+        <img loading="lazy" decoding="async" src="assets/fmt-kiosk.webp" width="1312" height="350" alt="คีออสชานัว 3 แบบ: คีออสมาตรฐาน คีออสรูปทรงโค้ง คีออสทรงบ้าน">
       </article>
       <article class="fmt">
         <div class="fmt-text">
@@ -536,7 +589,7 @@
           <div class="styles"><span>หน้าร้านมาตรฐาน</span><span>หน้าร้านโค้ง</span><span>หน้าร้านมินิมอล</span></div>
           <a class="btn btn-outline" href="#contact" data-pick="shop">สอบถามรูปแบบหน้าร้าน</a>
         </div>
-        <img src="assets/fmt-shop.jpg?v=2" width="1312" height="500" alt="หน้าร้านชานัวในอาคารพาณิชย์ 3 แบบ: หน้าร้านมาตรฐาน หน้าร้านโค้ง หน้าร้านมินิมอล">
+        <img loading="lazy" decoding="async" src="assets/fmt-shop.webp" width="1312" height="500" alt="หน้าร้านชานัวในอาคารพาณิชย์ 3 แบบ: หน้าร้านมาตรฐาน หน้าร้านโค้ง หน้าร้านมินิมอล">
       </article>
     </div>
     <p class="fmt-note">ภาพเป็นตัวอย่างการตกแต่ง · หลังเซ็นสัญญา ชานัวส่งแบบซุ้ม เคาน์เตอร์ และการตกแต่งร้านเป็นไฟล์รูปภาพ ผู้ลงทุนผลิตและตกแต่งร้านเอง</p>
@@ -551,11 +604,11 @@
     </div>
     <div class="real-grid">
       <figure>
-        <img src="assets/branch-real.webp" width="1302" height="912" alt="สาขาชานัวหน้าอาคารพาณิชย์ ป้ายแดงตัวอักษรขาว เคาน์เตอร์สแตนเลส และป้ายเมนูตั้งข้างร้าน">
+        <img loading="lazy" decoding="async" src="assets/branch-real.webp" width="1302" height="912" alt="สาขาชานัวหน้าอาคารพาณิชย์ ป้ายแดงตัวอักษรขาว เคาน์เตอร์สแตนเลส และป้ายเมนูตั้งข้างร้าน">
         <figcaption><b>สาขาจริง</b>หน้าร้านในอาคารพาณิชย์ ป้ายใหญ่ เคาน์เตอร์สแตนเลส และสแตนดี้เมนู 3 ถุง 100</figcaption>
       </figure>
       <figure>
-        <img src="assets/kiosk-render.jpg?v=2" width="1254" height="1254" alt="ภาพจำลองคีออสชานัว หลังคาโค้งสีแดงลายคลื่นขาว จอเมนูรูปถุงชา และป้ายตั้งพื้น">
+        <img loading="lazy" decoding="async" src="assets/kiosk-render.webp" width="1254" height="1254" alt="ภาพจำลองคีออสชานัว หลังคาโค้งสีแดงลายคลื่นขาว จอเมนูรูปถุงชา และป้ายตั้งพื้น">
         <figcaption><b>ภาพจำลอง</b>คีออสทรงโค้ง พร้อมจอเมนูรูปถุงและป้ายตั้งพื้น</figcaption>
       </figure>
     </div>
@@ -592,7 +645,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">ได้อะไรบ้าง</span>
-      <h2 id="kit-h">สิ่งที่คุณจะได้รับในแพ็กเกจแฟรนไชส์</h2>
+      <h2 id="kit-h">สิ่งที่คุณจะได้รับใน<em>แพ็กเกจแฟรนไชส์</em></h2>
       <p>อุปกรณ์และวัตถุดิบล็อตแรกครบชุด พร้อมถุงแบรนด์ชานัว 100 ใบ</p>
     </div>
     <div class="kit-grid">
@@ -760,7 +813,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">ขั้นตอนเปิดร้าน</span>
-      <h2 id="steps-h">จากวันที่ทักมา ถึงวันขายถุงแรก</h2>
+      <h2 id="steps-h">จากวันที่ทักมา ถึง<em>วันขายถุงแรก</em></h2>
     </div>
     <ol class="step-list">
       <li><h3>ทัก LINE ปรึกษา</h3><p>เล่าทำเลและงบที่มี ทีมแนะนำรูปแบบร้านที่เหมาะ</p></li>
@@ -800,7 +853,7 @@
       <p>สแกน QR หรือกดเพิ่มเพื่อนใน LINE แล้วทักมาได้เลย ทีมจะส่งราคาและรายละเอียดของแต่ละรูปแบบร้านให้</p>
       <p class="ct-promo"><b>จองภายใน 31 ธ.ค. นี้เท่านั้น</b> รับฟรี! อินฟลูชื่อดังประจำจังหวัดทำคลิปรีวิววันเปิดร้าน</p>
       <div class="line-card">
-        <img src="assets/line-qr.png" width="540" height="540" alt="QR code สำหรับเพิ่มเพื่อน LINE ชานัว">
+        <img loading="lazy" decoding="async" src="assets/line-qr.png" width="540" height="540" alt="QR code สำหรับเพิ่มเพื่อน LINE ชานัว">
         <div>
           <b>LINE ชานัว</b>
           <code id="lineUrl">https://lin.ee/UHhTVER</code>
@@ -906,6 +959,15 @@
       bar.classList.toggle("away", !!(seen.get(hero) || seen.get(contact)));
     }, { threshold: .15 });
     io.observe(hero); io.observe(contact);
+  }
+
+  // Gentle reveal on scroll; skipped when the visitor prefers reduced motion
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const els = document.querySelectorAll(".sec-head, .why-card, .board, .fmt, .real figure, .kit-card, .term-card, .terms-note, .step-list li, .faq-list details, .calc-box, .price-panel");
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(el => { el.classList.add("reveal"); io.observe(el); });
+    document.documentElement.classList.add("reveal-on");
+    addEventListener("beforeprint", () => els.forEach(el => el.classList.add("in")));
   }
 
   // Format buttons preselect the form
