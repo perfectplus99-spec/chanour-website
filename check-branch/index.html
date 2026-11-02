@@ -26,9 +26,6 @@
     --s-xs: .875rem; --s-sm: 1rem; --s-md: 1.125rem; --s-lg: 1.5rem; --s-xl: 2.25rem;
     --wrap: 1120px; --radius: 18px;
     --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 30'%3E%3Cg fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M0 10 Q20 2 40 10 T80 10'/%3E%3Cpath d='M0 21 Q20 13 40 21 T80 21'/%3E%3C/g%3E%3C/svg%3E");
-    /* red-and-white tablecloth check */
-    --check: linear-gradient(90deg, rgba(255,255,255,.09) 50%, transparent 50%) 0 0 / 36px 36px, linear-gradient(rgba(255,255,255,.09) 50%, transparent 50%) 0 0 / 36px 36px;
-    --check-red: linear-gradient(90deg, rgba(217,0,14,.06) 50%, transparent 50%) 0 0 / 28px 28px, linear-gradient(rgba(217,0,14,.06) 50%, transparent 50%) 0 0 / 28px 28px;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -78,7 +75,7 @@
   @media (max-width: 880px) { .nav-links a:not(.btn) { display: none; } }
 
   /* ---------- Hero ---------- */
-  .hero { background: var(--check), var(--red); color: var(--white); }
+  .hero { background: var(--red); color: var(--white); }
   .hero .wrap { display: grid; gap: 16px; padding-block: clamp(28px, 6vw, 56px) clamp(28px, 5vw, 44px); }
   .hero h1 { font-size: clamp(2rem, 7.5vw, 3.6rem); font-weight: 900; }
   .hero h1 em { font-style: normal; display: inline-block; background: var(--white); color: var(--red); padding: 0 .18em; border-radius: .12em; transform: rotate(-2deg); }
@@ -89,7 +86,7 @@
   .stat b { font-family: var(--f-display); font-weight: 800; font-size: 1.3rem; line-height: 1.25; color: var(--red); font-variant-numeric: tabular-nums; }
 
   /* ---------- Checker ---------- */
-  .checker { background: var(--check-red), var(--paper); }
+  .checker { background: var(--paper); }
   .checker .wrap { display: grid; gap: 18px; max-width: 760px; }
   .card { background: var(--white); border-radius: 22px; border: 2px solid var(--line); padding: clamp(18px, 4vw, 28px); display: grid; gap: 16px; min-width: 0; }
   .step-h { display: flex; align-items: center; gap: 12px; }
