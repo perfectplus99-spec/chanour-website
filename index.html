@@ -94,6 +94,12 @@
   .hero h1 em { font-style: normal; display: inline-block; background: var(--white); color: var(--red); padding: 0 .18em; border-radius: .12em; transform: rotate(-2deg); }
   .hero-lead { font-size: var(--s-md); max-width: 34rem; opacity: .95; }
   .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-cta .btn svg { width: 20px; height: 20px; flex: none; }
+  @media (max-width: 520px) {
+    .hero-cta { gap: 10px; }
+    .hero-cta .btn:first-child { flex: 1 1 100%; }
+    .hero-cta .btn:not(:first-child) { flex: 1 1 0; min-width: 0; padding: 10px 12px; font-size: var(--s-sm); white-space: nowrap; }
+  }
   .hero-price { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; justify-self: start; max-width: 100%; background: var(--white); color: var(--ink); text-decoration: none; padding: 14px 22px; border-radius: 20px; box-shadow: 0 6px 0 var(--red-deep); transition: transform .15s ease; }
   .hero-price:hover { transform: translateY(-2px); }
   .hp-amount { display: grid; line-height: 1.05; font-family: var(--f-display); }
@@ -108,6 +114,10 @@
   .hero-facts div { display: grid; }
   .hero-facts b { font-family: var(--f-display); font-weight: 800; font-size: 1.6rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
   .hero-facts span { font-size: var(--s-xs); opacity: .85; }
+  .hero-facts .fact-live { display: grid; text-decoration: none; }
+  .hero-facts .fact-live[hidden] { display: none; }
+  .hero-facts .fact-live b span { font-size: inherit; opacity: 1; }
+  .hero-facts .fact-live > span { text-decoration: underline; text-underline-offset: 3px; }
 
   .hero-art { position: relative; align-self: end; display: flex; justify-content: center; min-width: 0; }
   .hero-art .disc { position: relative; width: min(100%, 440px); aspect-ratio: 700 / 800; max-width: 100%; background: var(--white); border-radius: 220px 220px 0 0; overflow: hidden; }
@@ -225,6 +235,11 @@
   .kit-card li::before { content: counter(k); color: var(--muted); }
   .kit-card li b { font-family: var(--f-display); font-weight: 700; color: var(--red); }
   @media (max-width: 760px) { .kit-grid { grid-template-columns: 1fr; } }
+  .kit-more { display: none; width: 100%; padding: 12px; border: 0; border-top: 1px solid var(--line); background: var(--white); color: var(--red); font-family: var(--f-display); font-weight: 700; font-size: var(--s-sm); cursor: pointer; }
+  @media (max-width: 760px) {
+    .kit-card.collapsed li:nth-child(n+7) { display: none; }
+    .kit-card .kit-more { display: block; }
+  }
   .kit-check { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 18px 22px; border-radius: 20px; background: var(--paper); border: 2px dashed var(--red); }
   .kit-check p { color: var(--muted); }
   .kit-check b { font-family: var(--f-display); font-weight: 700; color: var(--ink); }
@@ -306,6 +321,13 @@
   @media (max-width: 860px) { .contact .wrap { grid-template-columns: 1fr; } }
   @media (max-width: 460px) { .two { grid-template-columns: 1fr; } }
 
+  .mbar { display: none; }
+  @media (max-width: 760px) {
+    .mbar { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: rgba(255,255,255,.96); box-shadow: 0 -6px 20px rgba(42,11,12,.14); transition: transform .2s ease; }
+    .mbar .btn { padding: 10px 12px; font-size: var(--s-sm); white-space: nowrap; }
+    .mbar.away { transform: translateY(110%); }
+    body { padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
+  }
   footer { background: var(--ink); color: rgba(255,255,255,.75); font-size: var(--s-xs); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-block: 22px; }
   footer b { font-family: var(--f-display); letter-spacing: .12em; color: var(--white); }
@@ -351,13 +373,15 @@
         </span>
       </a>
       <div class="hero-cta">
-        <a class="btn btn-white" href="#formats">ดูรูปแบบร้าน</a>
+        <a class="btn btn-white" href="/check-branch/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>เช็คสาขาว่าง</a>
+        <a class="btn btn-ghost" href="#formats">ดูรูปแบบร้าน</a>
         <a class="btn btn-ghost" href="#calc">ลองคำนวณกำไร</a>
       </div>
       <div class="hero-facts">
         <div><b>15 เมนู</b><span>นัวฮิต 12 · นัวแนะนำ 3</span></div>
         <div><b>3 ถุง 100.-</b><span>โปรขายดีหน้าร้าน</span></div>
         <div><b>3 รูปแบบ</b><span>ซุ้ม · คีออส · หน้าร้าน</span></div>
+        <a class="fact-live" id="liveBranches" href="/check-branch/" hidden><b><span id="liveCount"></span> สาขา</b><span id="liveProv"></span></a>
       </div>
     </div>
     <div class="hero-art">
@@ -740,6 +764,11 @@
   </div>
 </section>
 
+<div class="mbar away" id="mbar" aria-label="ทางลัด">
+  <a class="btn btn-outline" href="/check-branch/">เช็คสาขาว่าง</a>
+  <a class="btn btn-red" href="https://lin.ee/UHhTVER" target="_blank" rel="noopener">ทัก LINE</a>
+</div>
+
 <footer><div class="wrap"><span>© 2026 ชานัว Chanour · <b>GOOD DRINK GOOD DAY</b></span><span>ภาพร้านบางส่วนเป็นภาพจำลอง · ราคาและรายละเอียดโปรดยืนยันกับทีมแฟรนไชส์</span></div></footer>
 
 <script>
@@ -779,6 +808,36 @@
   $("decor").addEventListener("blur", () => { const v = +$("decor").value.replace(/[^\d]/g, ""); $("decor").value = v ? fmt(v) : ""; });
   calc();
 
+  // Kit lists: collapse to 6 items on phones (CSS decides when it applies)
+  document.querySelectorAll(".kit-card").forEach(card => {
+    const n = card.querySelectorAll("li").length;
+    if (n <= 6) return;
+    card.classList.add("collapsed");
+    const more = document.createElement("button");
+    more.type = "button"; more.className = "kit-more";
+    more.textContent = `ดูทั้งหมด ${n} รายการ`;
+    more.setAttribute("aria-expanded", "false");
+    more.addEventListener("click", () => {
+      const open = card.classList.toggle("collapsed") === false;
+      more.textContent = open ? "ย่อรายการ" : `ดูทั้งหมด ${n} รายการ`;
+      more.setAttribute("aria-expanded", String(open));
+      if (!open) card.scrollIntoView({ block: "nearest" });
+    });
+    card.appendChild(more);
+  });
+
+  // Sticky bar on phones: appears once the hero (which has its own buttons) scrolls away,
+  // and hides again over the contact section (which has the same buttons)
+  const bar = $("mbar"), hero = $("top"), contact = $("contact");
+  if (bar && hero && contact && "IntersectionObserver" in window) {
+    const seen = new Map();
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => seen.set(e.target, e.isIntersecting));
+      bar.classList.toggle("away", !!(seen.get(hero) || seen.get(contact)));
+    }, { threshold: .15 });
+    io.observe(hero); io.observe(contact);
+  }
+
   // Format buttons preselect the form
   document.querySelectorAll("[data-pick]").forEach(a => a.addEventListener("click", () => { $("f-pk").value = a.dataset.pick; }));
 
@@ -803,6 +862,29 @@
     try { navigator.clipboard.writeText(msg).catch(() => {}); } catch (err) {}
   });
 })();
+</script>
+<script type="module">
+  // Live branch count from the same Google Sheet the /check-branch page uses.
+  // Shown only when the sheet loads; any failure leaves the hero exactly as before.
+  import CFG from "/check-branch/config.js";
+  import { parseCSV, withCacheBuster } from "/check-branch/logic.js";
+  (async () => {
+    try {
+      if (!CFG.SHEET_CSV_URL) return;
+      const res = await fetch(withCacheBuster(CFG.SHEET_CSV_URL), { cache: "no-store" });
+      if (!res.ok) return;
+      const text = await res.text();
+      if (/^\s*</.test(text)) return;
+      const rows = parseCSV(text);
+      if (rows.length && !/\d/.test((rows[0][3] || "") + (rows[0][4] || ""))) rows.shift();
+      const branches = rows.filter(r => [r[0], r[1], r[2]].some(c => (c || "").trim()));
+      if (!branches.length) return;
+      const provinces = new Set(branches.map(r => (r[1] || "").trim()).filter(Boolean));
+      document.getElementById("liveCount").textContent = branches.length.toLocaleString("th-TH");
+      document.getElementById("liveProv").textContent = `ใน ${provinces.size} จังหวัด · เช็คทำเลว่าง`;
+      document.getElementById("liveBranches").hidden = false;
+    } catch (e) { /* keep the hero unchanged */ }
+  })();
 </script>
 
 </body></html>
