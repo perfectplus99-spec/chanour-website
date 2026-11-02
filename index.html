@@ -138,12 +138,10 @@
   /* ---------- Why ---------- */
   /* ---------- Promo: influencer review ---------- */
   .promo-band .wrap { padding-block: clamp(36px, 5vw, 56px) 0; }
-  .promo-banner { display: block; border-radius: 26px; transition: transform .15s ease; }
-  .promo-banner:hover { transform: translateY(-2px); }
-  .promo-banner img { width: 100%; }
-  .promo-card { display: none; grid-template-columns: minmax(0, 300px) 1fr; align-items: center; gap: 24px clamp(24px, 4vw, 48px); background: var(--tea-soft); border: 2px dashed var(--tea); border-radius: 26px; padding: clamp(22px, 3.5vw, 34px); }
+  .promo-card { display: grid; grid-template-columns: minmax(0, 300px) 1fr; align-items: center; gap: 24px clamp(24px, 4vw, 48px); background: var(--tea-soft); border: 2px dashed var(--tea); border-radius: 26px; padding: clamp(22px, 3.5vw, 34px); }
   .promo-shot { position: relative; margin: 0; transform: rotate(-3deg); }
-  .promo-shot img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 22px; border: 6px solid var(--white); box-shadow: 0 8px 0 var(--red-deep); }
+  .promo-shot img, .promo-video { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 22px; border: 6px solid var(--white); box-shadow: 0 8px 0 var(--red-deep); background: var(--red-deep); }
+  .promo-video { aspect-ratio: 9 / 16; height: auto; }
   .promo-rec { position: absolute; top: 18px; left: 18px; display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: var(--white); font-family: var(--f-display); font-weight: 700; font-size: var(--s-xs); letter-spacing: .1em; padding: 3px 12px; border-radius: 999px; }
   .promo-rec::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--white); animation: blink 1.2s steps(2, start) infinite; }
   @keyframes blink { to { visibility: hidden; } }
@@ -156,9 +154,8 @@
   .promo-sub { color: var(--muted); font-size: var(--s-md); }
   .promo-copy .btn { justify-self: start; margin-top: 8px; white-space: nowrap; }
   @media (max-width: 760px) {
-    .promo-banner { display: none; }
-    .promo-card { display: grid; grid-template-columns: 1fr; }
-    .promo-shot { width: min(100%, 280px); justify-self: center; }
+    .promo-card { grid-template-columns: 1fr; }
+    .promo-shot { width: min(100%, 270px); justify-self: center; }
   }
 
   .why-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
@@ -475,13 +472,13 @@
 
 <section class="promo-band" id="promo" aria-label="โปรโมชั่น">
   <div class="wrap">
-    <a class="promo-banner" href="#contact"><img loading="lazy" decoding="async" src="assets/promo-banner.webp" width="2000" height="667" alt="จองสิทธิ์เปิดร้านชานัวภายใน 31 ธ.ค. นี้เท่านั้น รับฟรี! อินฟลูชื่อดังประจำจังหวัดทำคลิปรีวิวในวันเปิดร้าน ให้คนทั้งจังหวัดรู้จักร้านคุณตั้งแต่วันแรก กดเพื่อจองสิทธิ์"></a>
-    <!-- Phones get the HTML card: the banner's text is too small at that width -->
     <div class="promo-card">
       <figure class="promo-shot">
-        <img loading="lazy" decoding="async" src="assets/influencer-review.webp" width="900" height="1200" alt="อินฟลูเอนเซอร์ถือถุงชาไทยชานัว ถ่ายคลิปรีวิวหน้าร้านในวันเปิดร้าน">
+        <video class="promo-video" id="promoVideo" muted loop playsinline preload="none" width="450" height="800" poster="assets/influencer-review-poster.webp" aria-label="คลิปอินฟลูเอนเซอร์รีวิวร้านชานัวสาขานางรองในวันเปิดร้าน ชิมชาถุง ลูกค้าต่อคิว และถือถุงชานัวกลับบ้าน">
+          <source src="assets/influencer-review.mp4" type="video/mp4">
+        </video>
         <span class="promo-rec">REC</span>
-        <figcaption>ภาพจำลอง</figcaption>
+        <figcaption>รีวิวจริง · สาขานางรอง</figcaption>
       </figure>
       <div class="promo-copy">
         <span class="promo-badge">ถึง 31 ธ.ค. นี้เท่านั้น</span>
@@ -963,6 +960,18 @@
       bar.classList.toggle("away", !!(seen.get(hero) || seen.get(contact)));
     }, { threshold: .15 });
     io.observe(hero); io.observe(contact);
+  }
+
+  // Influencer clip: starts loading and playing only when scrolled into view, pauses when off screen.
+  // Visitors who prefer reduced motion or have data saver on get the still frame and a play control instead.
+  const vid = $("promoVideo");
+  if (vid) {
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.connection && navigator.connection.saveData);
+    if (calm || !("IntersectionObserver" in window)) vid.controls = true;
+    else new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { vid.preload = "auto"; vid.play().catch(() => { vid.controls = true; }); }
+      else vid.pause();
+    }), { threshold: .25 }).observe(vid);
   }
 
   // Gentle reveal on scroll; skipped when the visitor prefers reduced motion
