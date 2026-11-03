@@ -9,3 +9,7 @@
 - ไฟล์ตัวอย่างชีต: `check-branch/data/branches-sample.csv`
 - คู่มือแอดมิน: [`docs/คู่มือแอดมิน-เช็คสาขาว่าง.md`](docs/คู่มือแอดมิน-เช็คสาขาว่าง.md)
 - ทดสอบ: `node --test tests/*.test.mjs` และ `node tests/e2e.cjs` (ต้องมี Playwright)
+
+## เว็บแฟรนไชส์ชาโทรี่ (`/torii/`)
+
+เว็บแยกของแบรนด์ชาโทรี่ (CHATORY) ไม่ใช้ไฟล์ร่วมกับเว็บชานัว รายละเอียดและวิธีแก้ราคาอยู่ที่ [`torii/README.md`](torii/README.md)
