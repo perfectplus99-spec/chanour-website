@@ -186,6 +186,12 @@
   .m-price small { display: block; font-size: var(--s-xs); color: var(--muted); font-weight: 500; }
   .m-price b { font-size: 2.2rem; font-weight: 700; }
   .m-price span { font-size: var(--s-md); font-weight: 600; }
+  .m-addon { background: var(--cream); border: 2px dashed var(--orange-soft); border-radius: 14px; padding: 8px 12px; font-size: .9rem; line-height: 1.5; color: var(--muted); }
+  .m-addon b { font-family: var(--f-display); font-weight: 600; color: var(--blue); }
+  .addon-toggle { display: flex; gap: 10px; align-items: flex-start; background: var(--cream); border-radius: 14px; padding: 10px 14px; cursor: pointer; }
+  .addon-toggle input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--orange); flex: none; }
+  .addon-toggle b { font-family: var(--f-display); font-weight: 500; color: var(--navy); }
+  .addon-toggle small { display: block; color: var(--muted); font-size: .82rem; }
   .m-specs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
   .m-specs li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; font-size: .95rem; line-height: 1.5; }
   .m-specs svg { width: 20px; height: 20px; color: var(--orange); margin-top: 2px; }
@@ -202,6 +208,7 @@
   .compare thead th { font-family: var(--f-display); font-weight: 600; color: var(--blue); background: var(--cream); }
   .compare tbody th { font-family: var(--f-display); font-weight: 500; color: var(--muted); white-space: nowrap; width: 1%; }
   .compare td b { font-family: var(--f-display); color: var(--orange); font-size: 1.1rem; }
+  .compare td small { color: var(--muted); font-size: .82rem; line-height: 1.4; display: inline-block; margin-top: 2px; }
   .compare tr:last-child th, .compare tr:last-child td { border-bottom: 0; }
   .note { margin-top: 14px; font-size: var(--s-xs); color: var(--muted); }
 
@@ -500,12 +507,13 @@
     <div class="m-grid">
       <article class="m-card hot">
         <span class="m-badge">แพ็กเกจแนะนำ · ลงทุนน้อยสุด</span>
-        <div class="m-img cover"><img loading="lazy" decoding="async" src="assets/kiosk-mini.webp" width="216" height="282" alt="ภาพจำลองร้าน TORii mini คีออสขนาดเล็กสีส้มขาว"></div>
+        <div class="m-img cover"><img loading="lazy" decoding="async" src="assets/kiosk-mini.webp" width="216" height="282" alt="ภาพจำลองร้าน TORii mini ร้านเล็กสีส้มขาว"></div>
         <div class="m-body">
-          <div class="m-name"><h3>TORii mini</h3><span>คีออสขนาดเล็ก</span></div>
+          <div class="m-name"><h3>TORii mini</h3><span>ร้านเล็ก · ซุ้ม 2×2 ม.</span></div>
           <p class="m-price"><small>งบลงทุน</small><b data-invest="mini">39,000</b> <span>บาท</span></p>
           <ul class="m-specs">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b>ทำเล</b> หน้าโรงเรียน ตลาด ชุมชน ปั๊ม หน้าห้าง</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg><span><b>พื้นที่</b> 10 ตร.ม. ขึ้นไป หรือซุ้มขนาด 2×2 เมตร</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>ขายแบบ</b> ซื้อกลับบ้าน เมนูเริ่มแก้วละ 15 บาท</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>เหมาะกับ</b> คนที่อยากเริ่มธุรกิจแรก ขายเองได้</span></li>
           </ul>
@@ -519,7 +527,8 @@
         <div class="m-img"><img loading="lazy" decoding="async" src="assets/kiosk-torii-open.webp" width="322" height="235" alt="ภาพจำลองคีออส TORii แบบเปิดโล่ง หลังคาโค้ง ป้าย CHATORY เคาน์เตอร์ลายหยดสีส้ม"></div>
         <div class="m-body">
           <div class="m-name"><h3>TORii Kiosk</h3><span>คีออสสำเร็จรูป</span></div>
-          <p class="m-price"><small>งบลงทุน</small><b data-invest="kiosk">149,000</b> <span>บาท</span></p>
+          <p class="m-price"><small>งบลงทุน (ไม่รวมซุ้ม)</small><b data-invest="kiosk">89,000</b> <span>บาท</span></p>
+          <p class="m-addon">สั่งซุ้มคีออสเพิ่ม <b>+<span data-addon="kiosk">50,000</span> บาท</b> · ค่าขนส่งซุ้มคิดตามระยะทาง</p>
           <ul class="m-specs">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg><span><b>พื้นที่</b> <span data-area="kiosk">4–10 ตร.ม.</span></span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b>ทำเล</b> โรงอาหาร หน้าโรงเรียน ตลาดนัด พื้นที่จำกัด</span></li>
@@ -555,8 +564,8 @@
         <table>
           <thead><tr><th scope="col"><span class="sr">หัวข้อ</span></th><th scope="col">TORii mini</th><th scope="col">TORii Kiosk</th><th scope="col">CHATORY Store</th></tr></thead>
           <tbody>
-            <tr><th scope="row">งบลงทุน</th><td><b><span data-invest="mini">39,000</span> บาท</b></td><td><b><span data-invest="kiosk">149,000</span> บาท</b></td><td><b><span data-invest="store">499,000</span> บาท</b></td></tr>
-            <tr><th scope="row">พื้นที่</th><td>คีออสขนาดเล็ก</td><td data-area="kiosk">4–10 ตร.ม.</td><td data-area="store">30–100 ตร.ม.</td></tr>
+            <tr><th scope="row">งบลงทุน</th><td><b><span data-invest="mini">39,000</span> บาท</b></td><td><b><span data-invest="kiosk">89,000</span> บาท</b><br><small>ไม่รวมซุ้ม · สั่งซุ้มเพิ่ม <span data-addon="kiosk">50,000</span> บาท + ค่าขนส่งตามระยะทาง</small></td><td><b><span data-invest="store">499,000</span> บาท</b></td></tr>
+            <tr><th scope="row">พื้นที่</th><td>10 ตร.ม. ขึ้นไป หรือซุ้ม 2×2 ม.</td><td data-area="kiosk">4–10 ตร.ม.</td><td data-area="store">30–100 ตร.ม.</td></tr>
             <tr><th scope="row">รูปแบบการขาย</th><td>ซื้อกลับบ้าน</td><td>ซื้อกลับบ้าน</td><td>มีที่นั่ง · คาเฟ่</td></tr>
             <tr><th scope="row">ทำเลแนะนำ</th><td>หน้าโรงเรียน ตลาด ชุมชน</td><td>โรงอาหาร ตลาดนัด พื้นที่จำกัด</td><td>ตึกแถว ร้านเดี่ยว ย่านมหาวิทยาลัย</td></tr>
             <tr><th scope="row">เมนู</th><td>ชาไทย เครื่องดื่มขายดี</td><td>เครื่องดื่ม + สเลอปี้</td><td>ครบทั้งเครื่องดื่มและของหวาน</td></tr>
@@ -652,9 +661,14 @@
         <div class="calc-step"><i>1</i>เลือกขนาดร้าน</div>
         <div class="seg" id="modelSeg" role="group" aria-label="ขนาดร้าน">
           <button type="button" data-model="mini" aria-pressed="true">TORii mini<small><span data-invest="mini">39,000</span>.-</small></button>
-          <button type="button" data-model="kiosk" aria-pressed="false">TORii Kiosk<small><span data-invest="kiosk">149,000</span>.-</small></button>
+          <button type="button" data-model="kiosk" aria-pressed="false">TORii Kiosk<small><span data-invest="kiosk">89,000</span>.-</small></button>
           <button type="button" data-model="store" aria-pressed="false">CHATORY Store<small><span data-invest="store">499,000</span>.-</small></button>
         </div>
+
+        <label class="addon-toggle" id="addonRow" hidden>
+          <input type="checkbox" id="addon" checked>
+          <span><b>รวมค่าซุ้มคีออส +<span data-addon="kiosk">50,000</span> บาท</b><small>ไม่รวมค่าขนส่งซุ้ม ซึ่งคิดตามระยะทาง · เอาเครื่องหมายออกถ้ามีซุ้มหรือหน้าร้านอยู่แล้ว</small></span>
+        </label>
 
         <div class="calc-step"><i>2</i>เลือกสถานการณ์ขายต่อวัน</div>
         <div class="chips" id="scenarioChips" role="group" aria-label="สถานการณ์ยอดขาย"></div>
@@ -785,7 +799,7 @@
       <h2 id="faq-h">ก่อนตัดสินใจ <em>อ่านตรงนี้ก่อน</em></h2>
     </div>
     <div class="faq-list">
-      <details open><summary>ชาโทรี่มีแพ็กเกจแฟรนไชส์แบบไหนบ้าง?</summary><p>มี 3 ขนาด คือ TORii mini (คีออสเล็ก) TORii Kiosk (คีออสสำเร็จรูป 4–10 ตร.ม.) และ CHATORY Store (ร้านเต็มรูปแบบมีที่นั่ง 30–100 ตร.ม.) ดูงบลงทุนแต่ละแบบได้ที่หัวข้อ <a href="#models">รูปแบบร้าน</a></p></details>
+      <details open><summary>ชาโทรี่มีแพ็กเกจแฟรนไชส์แบบไหนบ้าง?</summary><p>มี 3 ขนาด คือ TORii mini (พื้นที่ 10 ตร.ม. ขึ้นไป หรือซุ้ม 2×2 เมตร) TORii Kiosk (คีออสสำเร็จรูป 4–10 ตร.ม. แพ็กเกจไม่รวมซุ้ม สั่งซุ้มเพิ่มได้ ค่าขนส่งซุ้มคิดตามระยะทาง) และ CHATORY Store (ร้านเต็มรูปแบบมีที่นั่ง 30–100 ตร.ม.) ดูงบลงทุนแต่ละแบบได้ที่หัวข้อ <a href="#models">รูปแบบร้าน</a></p></details>
       <details><summary>ขายราคาเท่าไร กำไรต่อแก้วเท่าไร?</summary><p>ราคาเริ่มต้น 15 บาท เมนูหลัก 25–35 บาท เมนูซิกเนเจอร์สเลอปี้ 39–49 บาท กำไรขั้นต้นราว 55–60% ของราคาขาย ลองใส่ตัวเลขทำเลของคุณได้ที่ <a href="#calc">ตัวคำนวณคืนทุน</a></p></details>
       <details><summary>ไม่เคยทำร้านเครื่องดื่มมาก่อน เปิดได้ไหม?</summary><p>ได้ ทีมอบรมสูตรและระบบจัดการร้าน 2 วันก่อนเปิดจริง ทุกเมนูมีสูตรมาตรฐาน รสชาติเท่ากันทุกสาขา</p></details>
       <details><summary>เปิดใกล้สาขาอื่นได้ไหม?</summary><p>แต่ละสาขามีระยะคุ้มครองทำเล เช็คเบื้องต้นได้ที่ <a href="check-branch/">หน้าเช็คทำเลว่าง</a> แล้วให้ทีมงานยืนยันสิทธิ์อีกครั้ง</p></details>
@@ -861,7 +875,7 @@
     MODELS: {
       mini:  { name: "TORii mini",    invest: 39000,  cups: 80,  price: 20, rent: 2000,  staff: 0,
                scenarios: [["ขายเงียบ", 1000], ["ปานกลาง", 1500], ["ดี", 2500], ["ดีมาก", 4000]] },
-      kiosk: { name: "TORii Kiosk",   invest: 149000, cups: 100, price: 25, rent: 5000,  staff: 1,
+      kiosk: { name: "TORii Kiosk",   invest: 89000,  addon: 50000, addonName: "ซุ้มคีออส", cups: 100, price: 25, rent: 5000,  staff: 1,
                scenarios: [["ขายเงียบ", 2000], ["ปานกลาง", 2500], ["ดี", 5000], ["ดีมาก", 8000]] },
       store: { name: "CHATORY Store", invest: 499000, cups: 160, price: 30, rent: 25000, staff: 3,
                scenarios: [["ขายเงียบ", 3000], ["ปานกลาง", 5000], ["ดี", 8000], ["ดีมาก", 12000]] },
@@ -875,6 +889,7 @@
 
   // Fill every price slot from SITE so the page never shows two different numbers
   document.querySelectorAll("[data-invest]").forEach(el => { const m = SITE.MODELS[el.dataset.invest]; if (m) el.textContent = fmt(m.invest); });
+  document.querySelectorAll("[data-addon]").forEach(el => { const m = SITE.MODELS[el.dataset.addon]; if (m && m.addon) el.textContent = fmt(m.addon); });
   document.querySelectorAll("[data-line]").forEach(a => { a.href = SITE.LINE_URL; });
 
   // ---------- Payback calculator ----------
@@ -885,6 +900,7 @@
     model = key;
     const m = SITE.MODELS[key];
     document.querySelectorAll("#modelSeg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.model === key)));
+    $("addonRow").hidden = !m.addon;
     $("cups").value = m.cups; $("price").value = m.price; $("rent").value = m.rent; $("staff").value = m.staff;
     $("scenarioChips").innerHTML = m.scenarios.map(([label, sales]) =>
       `<button type="button" data-sales="${sales}" aria-pressed="false">${label} <small>${fmt(sales)}.-/วัน</small></button>`).join("");
@@ -917,7 +933,8 @@
 
     const wages = staff * wage;
     const rev = cups * price * days, cogs = cups * unitCost * days, profit = rev - cogs - rent - wages;
-    const invest = m.invest + extra;
+    const addon = m.addon && $("addon").checked ? m.addon : 0;
+    const invest = m.invest + addon + extra;
 
     $("daySales").textContent = baht(cups * price);
     $("rev").textContent = baht(rev);
@@ -927,7 +944,7 @@
     $("wages").textContent = minus(wages);
     $("profit").textContent = (profit < 0 ? "−" : "") + baht(Math.abs(profit));
     $("investOut").textContent = baht(invest);
-    $("investNote").textContent = m.name + (extra ? ` + งบเพิ่ม ${fmt(extra)} บาท` : "");
+    $("investNote").textContent = m.name + (addon ? ` + ${m.addonName} ${fmt(addon)} บาท (ไม่รวมค่าขนส่ง)` : "") + (extra ? ` + งบเพิ่ม ${fmt(extra)} บาท` : "");
 
     const margin = days * (price - unitCost);
     const need = margin > 0 ? Math.ceil((rent + wages) / margin) : Infinity;
@@ -950,6 +967,7 @@
 
   ids.forEach(id => $(id).addEventListener("input", calc));
   $("extra").addEventListener("input", calc);
+  $("addon").addEventListener("change", calc);
   $("extra").addEventListener("blur", () => { const v = +$("extra").value.replace(/[^\d]/g, ""); $("extra").value = v ? fmt(v) : ""; });
   $("modelSeg").addEventListener("click", e => { const b = e.target.closest("button[data-model]"); if (b) setModel(b.dataset.model); });
   $("scenarioChips").addEventListener("click", e => {
