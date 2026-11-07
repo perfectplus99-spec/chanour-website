@@ -196,6 +196,15 @@
   .tick li { position: relative; padding-left: 22px; }
   .tick li::before { content: ""; position: absolute; left: 2px; top: .38em; width: 11px; height: 6px; border-left: 2.5px solid var(--orange); border-bottom: 2.5px solid var(--orange); transform: rotate(-45deg); }
   .m-foot { font-size: .85rem; color: var(--muted); background: var(--panel); border-radius: 10px; padding: 6px 10px; }
+  .terms { margin-top: 22px; background: var(--surface); border: 2px solid var(--orange-soft); border-radius: var(--radius); padding: clamp(16px, 3vw, 22px); display: grid; gap: 14px; }
+  .terms h3 { font-size: var(--s-lg); color: var(--heading); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .terms h3 span { font-size: .85rem; font-weight: 500; color: var(--on); background: var(--orange); border-radius: 999px; padding: 1px 12px; }
+  .terms-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .term { background: var(--panel); border-radius: 16px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+  .term b { font-family: var(--f-display); font-weight: 600; color: var(--orange-ink); font-size: 1.05rem; line-height: 1.4; }
+  .term span { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+  @media (max-width: 860px) { .terms-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 420px) { .terms-grid { grid-template-columns: 1fr; } }
   .compare .yes { color: var(--green); font-weight: 700; font-size: 1.15rem; }
   .compare .no { color: var(--muted); opacity: .7; }
   .compare td small { display: block; }
@@ -1235,7 +1244,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       </div>
       <div class="hero-facts">
         <div><b>20.-</b><span>ราคาเริ่มต้นต่อแก้ว</span></div>
-        <div><b>~55%</b><span>กำไรขั้นต้นต่อแก้ว</span></div>
+        <div><b>40–50%</b><span>กำไรเฉลี่ยต่อแก้ว</span></div>
         <div><b>60+</b><span>เมนูเครื่องดื่มและของหวาน</span></div>
         <div><b>3 แบบ</b><span>mini · คีออส · ร้านมีที่นั่ง</span></div>
       </div>
@@ -1351,7 +1360,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <div class="m-body">
           <div class="m-name"><h3>TORii mini</h3><span>ร้านเล็ก ขายเครื่องดื่ม</span></div>
           <p class="m-price"><small>ค่าแฟรนไชส์</small><b data-invest="mini">39,000</b> <span>บาท</span></p>
-          <p class="m-addon">ไม่รวมค่าซุ้มและค่าขนส่งซุ้ม · แบรนด์มีซุ้มจำหน่าย</p>
+          <p class="m-addon">ไม่รวมซุ้ม · รับซุ้มเพิ่ม <b>+<span data-addon="mini">50,000</span> บาท</b> ค่าขนส่งซุ้มคิดตามระยะทาง</p>
           <ul class="m-specs">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg><span><b>พื้นที่</b> 4 ตร.ม. ขึ้นไป</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b>สิทธิ์ตั้งร้าน</b> รัศมี 3 กม. จากสาขาเดิม</span></li>
@@ -1360,7 +1369,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
             <ul class="tick">
               <li>ฟรีวัตถุดิบพร้อมขาย</li>
               <li>เครื่องดื่มกว่า 20 เมนู</li>
-              <li>อบรมเทรนนิ่งฟรี 1 วัน</li>
+              <li>อบรมฟรี 1 วัน ที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ (สูงสุด 3 ท่าน)</li>
               <li>อุปกรณ์ชงเครื่องดื่มทั้งหมด (30+ รายการ)</li>
               <li>คู่มือมาตรฐาน SOP</li>
               <li>ป้ายสื่อส่งเสริมการขาย 2 รายการ</li>
@@ -1391,7 +1400,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
               <li>คู่มือชงเครื่องดื่มกว่า 30 เมนู (สลัชชี่ 6 เมนู)</li>
               <li>เครื่องสลัชชี่ 2 โถ</li>
               <li>อุปกรณ์ชงเครื่องดื่มทั้งหมด (30+ รายการ)</li>
-              <li>อบรมเทรนนิ่งฟรี 1 วัน</li>
+              <li>อบรมฟรี 1 วัน ที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ (สูงสุด 3 ท่าน)</li>
               <li>อัปเดตเมนูใหม่ทุก 2–3 เดือน</li>
               <li>คู่มือมาตรฐาน SOP</li>
               <li>ป้ายสื่อส่งเสริมการขาย 2 รายการ</li>
@@ -1451,7 +1460,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
           <tbody>
             <tr><th scope="row">ขนาดพื้นที่</th><td>4 ตร.ม. ขึ้นไป</td><td>4 ตร.ม. ขึ้นไป</td><td>30 ตร.ม. ขึ้นไป</td></tr>
             <tr><th scope="row">สิทธิ์ตั้งร้าน</th><td>รัศมี 3 กม.</td><td>รัศมี 3 กม.</td><td>1 สิทธิ์ต่อ 1 อำเภอ</td></tr>
-            <tr><th scope="row">รูปแบบการตกแต่ง</th><td>แบรนด์มีซุ้มจำหน่าย</td><td>แบรนด์มีซุ้มจำหน่าย<br><small>ซุ้ม 50,000 บาท + ค่าขนส่ง</small></td><td>ตกแต่งตามรูปแบบที่กำหนด</td></tr>
+            <tr><th scope="row">รูปแบบการตกแต่ง</th><td>แบรนด์มีซุ้มจำหน่าย<br><small>ซุ้ม 50,000 บาท + ค่าขนส่ง</small></td><td>แบรนด์มีซุ้มจำหน่าย<br><small>ซุ้ม 50,000 บาท + ค่าขนส่ง</small></td><td>ตกแต่งตามรูปแบบที่กำหนด</td></tr>
             <tr><th scope="row">เมนูสลัชชี่</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td>6 เมนู</td><td>12+ เมนู</td></tr>
             <tr><th scope="row">เมนูเครื่องดื่ม</th><td>20+ เมนู</td><td>20+ เมนู</td><td>40+ เมนู</td></tr>
             <tr><th scope="row">เมนูขนมปัง</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="no" aria-label="ไม่มี">✕</span></td><td>15+ เมนู</td></tr>
@@ -1459,7 +1468,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
             <tr><th scope="row">ระบบคิดเงิน POS</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="yes" aria-label="มี">✓</span></td></tr>
             <tr><th scope="row">แอปเดลิเวอรี่</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="yes" aria-label="มี">✓</span></td></tr>
             <tr><th scope="row">แอปสั่งเครื่องดื่ม</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="yes" aria-label="มี">✓</span></td></tr>
-            <tr><th scope="row">อบรมที่บริษัท</th><td>1 วัน</td><td>1 วัน</td><td>2 วัน</td></tr>
+            <tr><th scope="row">อบรมที่สำนักงานใหญ่</th><td>1 วัน<br><small>สูงสุด 3 ท่าน</small></td><td>1 วัน<br><small>สูงสุด 3 ท่าน</small></td><td>2 วัน</td></tr>
+            <tr><th scope="row">ค่าธรรมเนียมรายปี</th><td>ไม่มี</td><td>ไม่มี</td><td><small>สอบถามทีมงาน</small></td></tr>
+            <tr><th scope="row">เก็บ % จากยอดขาย</th><td>ไม่เก็บ</td><td>ไม่เก็บ</td><td><small>สอบถามทีมงาน</small></td></tr>
+            <tr><th scope="row">ระยะเวลาเตรียมเปิด</th><td>~30 วัน</td><td>~30 วัน</td><td><small>สอบถามทีมงาน</small></td></tr>
             <tr><th scope="row">คู่มือมาตรฐาน SOP</th><td><span class="yes" aria-label="มี">✓</span></td><td><span class="yes" aria-label="มี">✓</span></td><td><span class="yes" aria-label="มี">✓</span></td></tr>
             <tr><th scope="row">ทีมเซ็ทอัพเปิดร้าน</th><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="no" aria-label="ไม่มี">✕</span></td><td><span class="yes" aria-label="มี">✓</span></td></tr>
             <tr><th scope="row">ชุดอุปกรณ์เปิดร้าน</th><td>30+ รายการ</td><td>30+ รายการ</td><td>100+ รายการ</td></tr>
@@ -1470,7 +1482,18 @@ svg.leaflet-image-layer.leaflet-interactive path {
         </table>
       </div>
     </div>
-    <p class="note">ภาพร้าน TORii และ CHATORY เป็นภาพจำลอง · โปรพิเศษประจำเดือนและรายละเอียดสัญญา สอบถามทีมแฟรนไชส์</p>
+    <div class="terms">
+      <h3>เงื่อนไขสำคัญ <span>TORii mini · TORii</span></h3>
+      <div class="terms-grid">
+        <div class="term"><b>ไม่มีค่ารายปี<br>ไม่เก็บ % ยอดขาย</b><span>จ่ายค่าแฟรนไชส์ครั้งเดียว กำไรทุกบาทเป็นของคุณ</span></div>
+        <div class="term"><b>กำไรเฉลี่ย 40–50%</b><span>ต่อแก้ว ก่อนหักค่าเช่า ค่าแรง และค่าใช้จ่ายอื่น</span></div>
+        <div class="term"><b>วัตถุดิบบังคับซื้อ<br>เฉพาะวัตถุดิบหลัก</b><span>ฟรีค่าขนส่งทั่วประเทศ ตามเงื่อนไข</span></div>
+        <div class="term"><b>เตรียมเปิดสาขา ~30 วัน</b><span>ช่วงจัดเตรียมวัสดุและอุปกรณ์</span></div>
+        <div class="term"><b>อบรมฟรี 1 วัน</b><span>ที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ เข้าอบรมได้สูงสุด 3 ท่าน</span></div>
+        <div class="term"><b>รับซุ้มเพิ่ม 50,000 บาท</b><span>ไม่บังคับ ค่าขนส่งซุ้มคิดตามระยะทาง</span></div>
+      </div>
+    </div>
+    <p class="note">ภาพร้าน TORii และ CHATORY เป็นภาพจำลอง · เงื่อนไขของแพ็กเกจ CHATORY และรายละเอียดสัญญา สอบถามทีมแฟรนไชส์</p>
   </div>
 </section>
 
@@ -1564,7 +1587,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       <article class="sup">
         <span class="sup-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5z"/><path d="M4 19a2 2 0 0 1 2-2h12M9 7h5M9 11h5"/></svg></span>
         <h3><small>TRAINING</small>อบรมก่อนเปิดร้าน</h3>
-        <p>สอนสูตรและระบบจัดการร้าน 1 วัน (TORii) หรือ 2 วันที่สำนักงานใหญ่ (CHATORY) ไม่มีพื้นฐานก็ทำได้</p>
+        <p>อบรมฟรีที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ TORii 1 วัน (สูงสุด 3 ท่าน) CHATORY 2 วัน ไม่มีพื้นฐานก็ทำได้</p>
       </article>
       <article class="sup">
         <span class="sup-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l14-6v14L3 13z"/><path d="M17 8.5a3.5 3.5 0 0 1 0 7M7 13.5l1.5 6h3L10 14"/></svg></span>
@@ -1598,7 +1621,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
         <label class="addon-toggle" id="addonRow" hidden>
           <input type="checkbox" id="addon" checked>
-          <span><b>รวมค่าซุ้ม TORii +<span data-addon="kiosk">50,000</span> บาท</b><small>ไม่รวมค่าขนส่งซุ้ม ซึ่งคิดตามระยะทาง · เอาเครื่องหมายออกถ้ามีซุ้มหรือหน้าร้านอยู่แล้ว</small></span>
+          <span><b>รวมค่าซุ้ม +<span data-addon="kiosk">50,000</span> บาท</b><small>ไม่รวมค่าขนส่งซุ้ม ซึ่งคิดตามระยะทาง · เอาเครื่องหมายออกถ้ามีซุ้มหรือหน้าร้านอยู่แล้ว</small></span>
         </label>
 
         <div class="calc-step"><i>2</i>เลือกสถานการณ์ขายต่อวัน</div>
@@ -1639,8 +1662,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
             </div>
             <div class="field">
               <span class="field-row"><label for="cost">ต้นทุนวัตถุดิบ (% ของราคาขาย)</label><output id="costOut" for="cost">–</output></span>
-              <input type="range" id="cost" min="30" max="60" step="1" value="45">
-              <small>ชาโทรี่มีกำไรขั้นต้นราว 55–60% ต่อแก้ว จึงตั้งต้นทุนไว้ที่ 45%</small>
+              <input type="range" id="cost" min="40" max="70" step="1" value="55">
+              <small>กำไรเฉลี่ย 40–50% ต่อแก้ว (ก่อนหักค่าเช่า ค่าแรง และค่าใช้จ่ายอื่น) จึงตั้งต้นทุนวัตถุดิบไว้ที่ 55% ปรับได้ตามเมนูที่ขาย</small>
             </div>
             <div class="field">
               <label for="extra">งบเพิ่มเติม เช่น ค่ามัดจำที่ ค่าตกแต่ง (บาท)</label>
@@ -1732,13 +1755,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <div class="sec-head">
       <span class="eyebrow">ขั้นตอนเปิดร้าน</span>
       <h2 id="steps-h">จากวันที่ทักมา <em>ถึงวันขายแก้วแรก</em></h2>
+      <p>เฉลี่ยประมาณ 30 วัน ตั้งแต่ชำระค่าแฟรนไชส์จนพร้อมเปิดร้าน</p>
     </div>
     <ol class="step-list">
-      <li><h3>ทัก LINE ปรึกษา</h3><p>เล่าทำเลและงบที่มี ทีมแนะนำขนาดร้านที่เหมาะ</p></li>
-      <li><h3>เช็คและสำรวจทำเล</h3><p>ส่งทำเลให้ทีมตรวจสิทธิ์ และช่วยประเมินยอดขาย</p></li>
-      <li><h3>เลือกแพ็กเกจ ทำสัญญา</h3><p>สรุปรายละเอียดแพ็กเกจ ค่าใช้จ่าย และทำสัญญาแฟรนไชส์</p></li>
-      <li><h3>อบรม 1–2 วัน</h3><p>เรียนสูตรชง สลัชชี่ ของหวาน และระบบจัดการร้าน ตามแพ็กเกจ</p></li>
-      <li><h3>เปิดร้าน</h3><p>เปิดพร้อมโปรเปิดร้าน 50 แก้วแรกฟรี เรียกลูกค้าตั้งแต่วันแรก</p></li>
+      <li><h3>ทัก LINE ปรึกษา</h3><p>เล่าทำเลและงบที่มี ทีมแนะนำแพ็กเกจและช่วยเช็คทำเล</p></li>
+      <li><h3>ชำระค่าแฟรนไชส์</h3><p>ชำระค่าแฟรนไชส์เต็มจำนวน</p></li>
+      <li><h3>อบรม + เซ็นสัญญา</h3><p>นัดวันเข้าเทรนนิ่งที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ พร้อมเซ็นสัญญา</p></li>
+      <li><h3>เตรียมร้าน ~30 วัน</h3><p>ช่วงจัดเตรียมวัสดุและอุปกรณ์สำหรับเปิดร้าน</p></li>
+      <li><h3>แจ้งวันเปิดสาขา</h3><p>เปิดขายพร้อมโปรเปิดร้าน เรียกลูกค้าตั้งแต่วันแรก</p></li>
     </ol>
   </div>
 </section>
@@ -1751,8 +1775,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </div>
     <div class="faq-list">
       <details open><summary>ชาโทรี่มีแพ็กเกจแฟรนไชส์แบบไหนบ้าง?</summary><p>มี 3 แพ็กเกจ คือ TORii mini 39,000 บาท และ TORii 89,000 บาท (พื้นที่ 4 ตร.ม. ขึ้นไป ไม่รวมซุ้มและค่าขนส่งซุ้ม) และ CHATORY งบลงทุนรวม 499,000 บาท (พื้นที่ 30 ตร.ม. ขึ้นไป) ดูของที่ได้ในแต่ละแพ็กเกจได้ที่หัวข้อ <a href="#models">รูปแบบร้าน</a></p></details>
-      <details><summary>ขายราคาเท่าไร กำไรต่อแก้วเท่าไร?</summary><p>ราคาเริ่มต้น 20 บาท ชาไทย 29 บาทฟรีไข่มุก สลัชชี่ 45–55 บาท มินิโทสต์ 59 บาท ไอศกรีมโคน 25 บาท กำไรขั้นต้นราว 55–60% ของราคาขาย ลองใส่ตัวเลขทำเลของคุณได้ที่ <a href="#calc">ตัวคำนวณคืนทุน</a></p></details>
-      <details><summary>ไม่เคยทำร้านเครื่องดื่มมาก่อน เปิดได้ไหม?</summary><p>ได้ ทีมอบรมสูตรและระบบจัดการร้านก่อนเปิดจริง 1 วันสำหรับ TORii และ 2 วันที่สำนักงานใหญ่สำหรับ CHATORY พร้อมคู่มือมาตรฐาน SOP ทุกเมนูมีสูตรมาตรฐาน รสชาติเท่ากันทุกสาขา</p></details>
+      <details><summary>ขายราคาเท่าไร กำไรต่อแก้วเท่าไร?</summary><p>ราคาเริ่มต้น 20 บาท ชาไทย 29 บาทฟรีไข่มุก สลัชชี่ 45–55 บาท มินิโทสต์ 59 บาท ไอศกรีมโคน 25 บาท กำไรเฉลี่ย 40–50% ของราคาขาย (ก่อนหักค่าเช่า ค่าแรง และค่าใช้จ่ายอื่น) ลองใส่ตัวเลขทำเลของคุณได้ที่ <a href="#calc">ตัวคำนวณคืนทุน</a></p></details>
+      <details><summary>มีค่ารายปี หรือเก็บ % จากยอดขายไหม?</summary><p>TORii mini และ TORii ไม่มีค่าธรรมเนียมรายปี และไม่เก็บ % จากยอดขาย จ่ายค่าแฟรนไชส์ครั้งเดียว ส่วน CHATORY สอบถามรายละเอียดกับทีมงาน</p></details>
+      <details><summary>ต้องซื้อวัตถุดิบจากแบรนด์ไหม?</summary><p>บังคับซื้อเฉพาะวัตถุดิบหลัก เพื่อให้รสชาติเหมือนกันทุกสาขา และฟรีค่าขนส่งทั่วประเทศตามเงื่อนไข</p></details>
+      <details><summary>ใช้เวลานานแค่ไหนกว่าจะเปิดร้านได้?</summary><p>เฉลี่ยประมาณ 30 วัน ขั้นตอนคือ ชำระค่าแฟรนไชส์เต็มจำนวน นัดวันเทรนนิ่งพร้อมเซ็นสัญญา จากนั้นทีมจัดเตรียมวัสดุและอุปกรณ์ แล้วแจ้งวันเปิดสาขา</p></details>
+      <details><summary>ไม่เคยทำร้านเครื่องดื่มมาก่อน เปิดได้ไหม?</summary><p>ได้ ทีมอบรมฟรีที่สำนักงานใหญ่ อ.นางรอง จ.บุรีรัมย์ 1 วันสำหรับ TORii (เข้าอบรมได้สูงสุด 3 ท่าน) และ 2 วันที่สำนักงานใหญ่สำหรับ CHATORY พร้อมคู่มือมาตรฐาน SOP ทุกเมนูมีสูตรมาตรฐาน รสชาติเท่ากันทุกสาขา</p></details>
       <details><summary>เปิดใกล้สาขาอื่นได้ไหม?</summary><p>CHATORY จำกัด 1 สิทธิ์ต่อ 1 อำเภอ ส่วน TORii และ TORii mini ต้องห่างจากสาขาเดิมอย่างน้อย 3 กม. ดูสาขาทั้งหมดและเช็คทำเลเองได้ที่ <a href="#area">สาขาทั่วประเทศ</a></p></details>
       <details><summary>หลังเปิดร้าน แบรนด์ช่วยอะไรบ้าง?</summary><p>จัดส่งวัตถุดิบมาตรฐาน ออกเมนูใหม่ตามเทศกาล ทำโปรโมชั่นและบัตรสะสมแต้มผ่าน LINE OA และบรอดแคสต์โปรโมชั่นถึงลูกค้าในพื้นที่</p></details>
       <details><summary>ตัวเลขคืนทุนในหน้านี้เชื่อได้แค่ไหน?</summary><p>เป็นการประมาณการจากตัวเลขที่คุณใส่เอง ใช้ช่วยวางแผนเบื้องต้น ไม่ใช่การรับประกันยอดขาย ทีมงานช่วยประเมินตามทำเลจริงให้ได้</p></details>
@@ -1833,9 +1860,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   const SITE = {
     LINE_URL: "https://lin.ee/ZTb6A8g",
     MODELS: {
-      mini:  { name: "TORii mini",    invest: 39000,  note: "ไม่รวมค่าซุ้มและค่าขนส่ง",  cups: 80,  price: 20, rent: 2000,  staff: 0,
+      mini:  { name: "TORii mini",    invest: 39000,  addon: 50000, addonName: "ซุ้ม", note: "ไม่รวมค่าขนส่งซุ้ม",  cups: 80,  price: 20, rent: 2000,  staff: 0,
                scenarios: [["ขายเงียบ", 1000], ["ปานกลาง", 1500], ["ดี", 2500], ["ดีมาก", 4000]] },
-      kiosk: { name: "TORii",         invest: 89000,  addon: 50000, addonName: "ซุ้ม TORii", note: "ไม่รวมค่าขนส่งซุ้ม", cups: 100, price: 25, rent: 5000,  staff: 1,
+      kiosk: { name: "TORii",         invest: 89000,  addon: 50000, addonName: "ซุ้ม", note: "ไม่รวมค่าขนส่งซุ้ม", cups: 100, price: 25, rent: 5000,  staff: 1,
                scenarios: [["ขายเงียบ", 2000], ["ปานกลาง", 2500], ["ดี", 5000], ["ดีมาก", 8000]] },
       store: { name: "CHATORY",       invest: 499000, cups: 160, price: 30, rent: 25000, staff: 3,
                scenarios: [["ขายเงียบ", 3000], ["ปานกลาง", 5000], ["ดี", 8000], ["ดีมาก", 12000]] },
