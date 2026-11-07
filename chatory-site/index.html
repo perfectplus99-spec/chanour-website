@@ -422,6 +422,10 @@
   .map-hint { font-size: .82rem; color: var(--muted); }
   #brMap { height: clamp(420px, 62vh, 600px); border-radius: 16px; background: var(--sea); z-index: 0; }
   .leaflet-container { font-family: var(--f-body); background: var(--sea); }
+  #brMap .leaflet-tile-pane { filter: saturate(.55) brightness(1.04); }
+  .prov-label { pointer-events: none; }
+  .prov-label span { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-family: var(--f-display); font-weight: 600; font-size: .86rem; color: var(--orange-ink); background: rgba(255,255,255,.88); border: 1px solid var(--orange-soft); border-radius: 999px; padding: 1px 9px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .dense .prov-label span { font-size: .7rem; padding: 0 6px; }
   .leaflet-control-zoom a { color: var(--heading) !important; }
   .flag { position: relative; width: 44px; height: 54px; transform-origin: 7px 51px; transition: transform .2s ease; }
   .far .flag { transform: scale(.66); }
@@ -1693,7 +1697,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
             <button type="button" data-f="chatory" aria-pressed="false"><img src="assets/logo-face.webp" alt="">CHATORY</button>
             <button type="button" data-f="torii" aria-pressed="false"><img src="assets/torii-face.webp" alt="">TORii</button>
           </div>
-          <span class="map-hint">แตะธงเพื่อดูสาขา · แตะพื้นที่ว่างเพื่อเช็คทำเล · สีส้มอ่อน = อำเภอที่มี CHATORY แล้ว · วงฟ้า = รัศมี 3 กม. ของ TORii</span>
+          <span class="map-hint">ซูมเพื่อดูชื่อจังหวัดและถนน · แตะธงเพื่อดูสาขา · แตะพื้นที่ว่างเพื่อเช็คทำเล · สีส้มอ่อน = อำเภอที่มี CHATORY แล้ว · วงฟ้า = รัศมี 3 กม. ของ TORii</span>
         </div>
         <svg width="0" height="0" style="position:absolute" aria-hidden="true"><clipPath id="faceClip" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath></svg>
         <div id="brMap" role="application" aria-label="แผนที่ประเทศไทย แสดงธงสาขาชาโทรี่และโทริ"></div>
@@ -1989,6 +1993,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
   const flagHtml = brand => `<div class="flag"><svg viewBox="0 0 44 54" width="44" height="54" aria-hidden="true"><ellipse cx="7" cy="51" rx="6" ry="2" fill="rgba(0,0,0,.22)"/><rect x="5.5" y="5" width="3" height="46" rx="1.5" fill="#6B4A3A"/><circle cx="7" cy="5" r="3.2" fill="#FFD84D" stroke="#fff" stroke-width="1"/><g class="cloth"><path d="M8.5 6 C18 1.5 26 10 41 5 L41 30 C26 35 18 26.5 8.5 31 Z" fill="${FLAG[brand]}" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="25.5" cy="18" r="10.6" fill="#fff"/><image href="${FACE[brand]}" x="16" y="8.5" width="19" height="19" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid slice"/></g></svg></div>`;
 
+  let provs = [];
   let branches = [], feats = [], byProv = new Map(), map = null, layers = { chatory: null, torii: null }, markers = new Map(), youMarker = null;
   let pick = { p: "", d: "", ll: null };
 
@@ -2021,10 +2026,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
   function buildMap() {
     if (!window.L) { $("brMap").innerHTML = '<p style="padding:16px">โหลดแผนที่ไม่สำเร็จ ดูรายชื่อสาขาด้านล่างได้เลย</p>'; return; }
-    map = L.map("brMap", { zoomSnap: .25, minZoom: 5, maxZoom: 14, attributionControl: true, scrollWheelZoom: false, maxBounds: [[3.5, 94], [22.5, 108.5]] });
+    map = L.map("brMap", { zoomSnap: .25, minZoom: 5, maxZoom: 18, attributionControl: true, scrollWheelZoom: false, maxBounds: [[3.5, 94], [22.5, 108.5]] });
     map.attributionControl.setPrefix(false).addAttribution("ขอบเขตอำเภอ: OCHA / กรมแผนที่ทหาร");
+    // Street map with Thai place names; if tiles cannot load, the district shapes below stay as a plain map
+    let tileErrors = 0;
+    const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>' })
+      .on("tileload", () => { if (land && map.hasLayer(land)) map.removeLayer(land); })
+      .on("tileerror", () => { if (++tileErrors > 6 && land && !map.hasLayer(land)) land.addTo(map); });
     const css = getComputedStyle(document.documentElement);
-    L.geoJSON({ type: "FeatureCollection", features: feats }, { interactive: false, style: { color: css.getPropertyValue("--line").trim() || "#EEDFD3", weight: .6, fillColor: css.getPropertyValue("--land").trim() || "#fff", fillOpacity: 1 } }).addTo(map);
+    const land = L.geoJSON({ type: "FeatureCollection", features: feats }, { interactive: false, style: { color: css.getPropertyValue("--line").trim() || "#EEDFD3", weight: .6, fillColor: css.getPropertyValue("--land").trim() || "#fff", fillOpacity: 1 } }).addTo(map);
+    tiles.addTo(map);
+    // Thai province names (appear once zoomed in enough to read them; the street map draws the borders)
+    const provLabels = L.layerGroup();
+    provs.forEach(pv => {
+      L.marker(pv.c, { interactive: false, keyboard: false, icon: L.divIcon({ className: "prov-label", html: `<span>${esc(pv.p === "กรุงเทพมหานคร" ? "กรุงเทพฯ" : pv.p)}</span>`, iconSize: [0, 0] }) }).addTo(provLabels);
+    });
     map.fitBounds([[5.6, 97.4], [20.5, 105.6]]);
     const seen = new Map();
     for (const brand of ["chatory", "torii"]) layers[brand] = L.layerGroup().addTo(map);
@@ -2039,7 +2055,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
         .bindPopup(`<div class="pop"><span class="tag${b.brand === "torii" ? " t" : ""}">${BRAND[b.brand]}</span><b>${esc(b.name)}</b>${esc(b.place)}<br>${esc(label(b.p, b.d))} · จ.${esc(b.p)}${approx}</div>`);
       m.addTo(layers[b.brand]); markers.set(b.code, m);
     });
-    const zoomClass = () => $("brMap").classList.toggle("far", map.getZoom() < 7.5);
+    const zoomClass = () => {
+      const z = map.getZoom();
+      $("brMap").classList.toggle("far", z < 7.5);
+      const showLabels = z >= 6.75 && z < 11;
+      if (showLabels && !map.hasLayer(provLabels)) provLabels.addTo(map); else if (!showLabels && map.hasLayer(provLabels)) map.removeLayer(provLabels);
+      $("brMap").classList.toggle("dense", z < 7.75);
+    };
     map.on("zoomend", zoomClass); zoomClass();
     map.on("click", e => setPin(e.latlng.lat, e.latlng.lng, true));
     new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { map.invalidateSize(); o.disconnect(); } }).observe($("brMap"));
@@ -2119,11 +2141,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
   Promise.all([
     fetch("branches.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
     fetch("th-districts.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-  ]).then(([bj, gj]) => {
-    branches = bj.branches; feats = gj.features;
+    fetch("th-provinces.json").then(r => r.ok ? r.json() : []).catch(() => []),
+  ]).then(([bj, gj, pj]) => {
+    branches = bj.branches; feats = gj.features; provs = pj;
     feats.forEach(f => { const { p, d } = f.properties; if (!byProv.has(p)) byProv.set(p, []); byProv.get(p).push(d); });
-    const provs = [...byProv.keys()].sort((a, b) => a.localeCompare(b, "th"));
-    $("c-prov").innerHTML = '<option value="">เลือกจังหวัด</option>' + provs.map(p => `<option>${esc(p)}</option>`).join("");
+    const provNames = [...byProv.keys()].sort((a, b) => a.localeCompare(b, "th"));
+    $("c-prov").innerHTML = '<option value="">เลือกจังหวัด</option>' + provNames.map(p => `<option>${esc(p)}</option>`).join("");
     renderStats(); renderList(); buildMap();
     const d = new Date(bj.updated + "T00:00:00");
     $("srcNote").textContent = `ข้อมูลสาขาจากชีต “${bj.source}” อัปเดต ${d.toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" })} · บางสาขาใช้พิกัดกลางอำเภอหรือพิกัดโดยประมาณ ระยะที่วัดได้จึงคลาดเคลื่อนได้ · ผลเช็คทำเลเป็นข้อมูลเบื้องต้น ทีมงานเป็นผู้ยืนยันสิทธิ์`;
