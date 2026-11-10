@@ -375,7 +375,6 @@
   .line-card img { width: 150px; height: 150px; border-radius: 10px; }
   .line-card div { display: grid; gap: 8px; min-width: 0; }
   .line-card b { font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; }
-  .line-card code { font-family: var(--f-body); font-size: var(--s-xs); color: var(--muted); word-break: break-all; user-select: all; }
   .line-actions { display: flex; flex-wrap: wrap; gap: 8px; }
   .line-actions .btn { padding: 8px 16px; font-size: var(--s-sm); }
   .copy-btn { font-family: var(--f-display); font-weight: 600; font-size: var(--s-sm); padding: 8px 16px; border-radius: 999px; background: var(--paper); color: var(--red); border: 2px solid var(--line); cursor: pointer; }
@@ -866,10 +865,9 @@
         <img loading="lazy" decoding="async" src="assets/line-qr.png" width="540" height="540" alt="QR code สำหรับเพิ่มเพื่อน LINE ชานัว">
         <div>
           <b>LINE ชานัว</b>
-          <code id="lineUrl">https://lin.ee/UHhTVER</code>
           <div class="line-actions">
             <a class="btn btn-red" href="https://lin.ee/UHhTVER" target="_blank" rel="noopener">เพิ่มเพื่อน LINE</a>
-            <button class="copy-btn" type="button" data-copy="lineUrl">คัดลอกลิงก์</button>
+            <button class="copy-btn" type="button" data-text="https://lin.ee/UHhTVER">คัดลอกลิงก์</button>
           </div>
         </div>
       </div>
@@ -879,10 +877,9 @@
           <span class="wa-tag">ສຳລັບໝູ່ເພື່ອນຊາວລາວ</span>
           <b>WhatsApp ຊານົວ</b>
           <p class="wa-note">ສົນໃຈເປີດຮ້ານ <span class="nb">ຊານົວ</span> ຢູ່ ສປປ ລາວ ທັກຫາ ທີມງານ ທາງ WhatsApp ໄດ້ເລີຍ<span lang="th">สำหรับเพื่อนๆ ชาว สปป.ลาว สนใจเปิดร้าน<span class="nb">ชานัว</span> ทักทีมงานทาง WhatsApp ได้เลย</span></p>
-          <code id="waUrl">https://wa.me/qr/X4PB3576LYR7N1</code>
           <div class="line-actions">
             <a class="btn btn-wa" href="https://wa.me/qr/X4PB3576LYR7N1" target="_blank" rel="noopener">ທັກ WhatsApp</a>
-            <button class="copy-btn" type="button" data-copy="waUrl" data-done="ສຳເນົາແລ້ວ">ສຳເນົາລິ້ງ</button>
+            <button class="copy-btn" type="button" data-text="https://wa.me/qr/X4PB3576LYR7N1" data-done="ສຳເນົາແລ້ວ">ສຳເນົາລິ້ງ</button>
           </div>
         </div>
       </div>
@@ -1010,9 +1007,16 @@
 
   // Copy buttons
   document.querySelectorAll(".copy-btn").forEach(btn => btn.addEventListener("click", () => {
-    const el = $(btn.dataset.copy), txt = el.textContent.trim(), label = btn.textContent;
+    // The link itself is not shown on the page; the button carries it in data-text
+    const txt = (btn.dataset.text || "").trim(), label = btn.textContent;
     const ok = () => { btn.textContent = btn.dataset.done || "คัดลอกแล้ว"; setTimeout(() => btn.textContent = label, 1600); };
-    const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    const fallback = () => {
+      const ta = document.createElement("textarea");
+      ta.value = txt; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      let done = false; try { done = document.execCommand("copy"); } catch (e) { /* not supported */ }
+      ta.remove(); if (done) ok();
+    };
     try { navigator.clipboard.writeText(txt).then(ok, fallback); } catch (e) { fallback(); }
   }));
 
