@@ -401,9 +401,49 @@ function restart() {
 
 // ---------- Overview map ----------
 
+// แผนที่ภาพรวมแสดงเฉพาะประเทศไทย:
+// - ซูมไกล (เห็นทั้งประเทศ): วาดรูปประเทศไทยจากขอบเขตอำเภอ (districts.geojson) แทนแผนที่โลก
+//   จึงไม่เห็นประเทศเพื่อนบ้าน
+// - ซูมใกล้ตั้งแต่ระดับ OVERVIEW_STREET_ZOOM: สลับเป็นแผนที่ถนน OpenStreetMap ให้เห็นรายละเอียด
+//   (ขอบเขตอำเภอเป็นแบบย่อ ถ้าซูมใกล้จะเห็นรอยต่อระหว่างอำเภอ)
+// - ล็อกไม่ให้เลื่อนออกนอกไทย และซูมออกได้ไกลสุดแค่เห็นทั้งประเทศ
+const OVERVIEW_SEA = "#EEF2F4";   // สีพื้นนอกประเทศไทย
+const OVERVIEW_LAND = "#F6E8D7";  // สีพื้นประเทศไทย
+const OVERVIEW_EDGE = "#D9BFA0";  // สีเส้นขอบประเทศ
+const OVERVIEW_STREET_ZOOM = 7;  // ซูมถึงระดับนี้แล้วเปลี่ยนเป็นแผนที่ถนน
+
 function drawOverview() {
-  const map = L.map("overviewMap", { scrollWheelZoom: false, zoomSnap: .25 }).fitBounds(TH_BOUNDS);
-  L.tileLayer(TILE_URL, { maxZoom: 18, attribution: TILE_ATTR }).addTo(map);
+  const map = L.map("overviewMap", {
+    scrollWheelZoom: false, zoomSnap: .25, maxZoom: 18,
+    maxBounds: L.latLngBounds(TH_BOUNDS).pad(0.08), maxBoundsViscosity: 1,
+  }).fitBounds(TH_BOUNDS);
+  // ซูมออกได้ไกลสุดแค่เห็นไทยทั้งประเทศ (คำนวณใหม่เมื่อขนาดจอเปลี่ยน เช่น หมุนมือถือ)
+  const lockZoom = () => map.setMinZoom(map.getBoundsZoom(TH_BOUNDS));
+  lockZoom();
+  map.on("resize", lockZoom);
+  map.getContainer().style.background = OVERVIEW_SEA;
+
+  const tiles = L.tileLayer(TILE_URL, { maxZoom: 18, attribution: TILE_ATTR });
+  if (geo && geo.size > 0) {
+    // ชั้นรูปประเทศอยู่ใต้วงกลมและอำเภอที่ระบายสีเสมอ
+    map.createPane("thaiShape").style.zIndex = 350;
+    const thailand = { type: "FeatureCollection", features: [...geo.values()] };
+    const shape = L.layerGroup([
+      // ชั้นล่าง: เส้นหนาสีเข้ม / ชั้นบน: พื้นสีอ่อนทับเส้นด้านใน → เหลือเห็นแค่เส้นขอบรอบประเทศ
+      L.geoJSON(thailand, { pane: "thaiShape", interactive: false, style: { color: OVERVIEW_EDGE, weight: 3, fill: false } }),
+      L.geoJSON(thailand, { pane: "thaiShape", interactive: false, style: { color: OVERVIEW_LAND, weight: 2, fillColor: OVERVIEW_LAND, fillOpacity: 1 } }),
+    ]);
+    const pickLayer = () => {
+      const street = map.getZoom() >= OVERVIEW_STREET_ZOOM;
+      if (street) { map.addLayer(tiles); map.removeLayer(shape); }
+      else { map.addLayer(shape); map.removeLayer(tiles); }
+    };
+    pickLayer();
+    map.on("zoomend", pickLayer);
+  } else {
+    // โหลดขอบเขตอำเภอไม่สำเร็จ → ใช้แผนที่ถนนแบบเดิมทุกระดับซูม
+    tiles.addTo(map);
+  }
   const ruralCodes = new Set(branches.filter(b => b.type === "rural").map(b => b.districtCode));
   for (const code of ruralCodes) {
     const f = geo.get(code);
