@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#D9000E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700;800;900&family=Anuphan:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700;800;900&family=Anuphan:wght@400;500;600&family=Noto+Sans+Lao:wght@400;600;800&display=swap">
 </head>
 <body>
 <style>
@@ -27,8 +27,8 @@
     --paper: #FFF6F3;      /* warm white for alternating panels */
     --steel: #E9E6E6;      /* stainless counter */
 
-    --f-display: "Kanit", "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
-    --f-body: "Anuphan", "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
+    --f-display: "Kanit", "Noto Sans Lao", "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
+    --f-body: "Anuphan", "Noto Sans Lao", "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
 
     --s-xs: .875rem; --s-sm: 1rem; --s-md: 1.125rem; --s-lg: 1.5rem; --s-xl: 2.25rem; --s-xxl: clamp(2.6rem, 7vw, 4.75rem);
     --wrap: 1120px;
@@ -380,6 +380,15 @@
   .line-actions .btn { padding: 8px 16px; font-size: var(--s-sm); }
   .copy-btn { font-family: var(--f-display); font-weight: 600; font-size: var(--s-sm); padding: 8px 16px; border-radius: 999px; background: var(--paper); color: var(--red); border: 2px solid var(--line); cursor: pointer; }
   @media (max-width: 420px) { .line-card { grid-template-columns: 1fr; justify-items: center; text-align: center; } .line-actions { justify-content: center; } }
+  /* WhatsApp card for friends in Lao PDR: same card as LINE, green accents, Lao first with Thai below */
+  .wa-card { border-left: 6px solid #25D366; }
+  .line-card .wa-tag { justify-self: start; font-family: var(--f-display); font-weight: 700; font-size: var(--s-xs); color: #0B7A3B; background: #E3F8EC; padding: 2px 12px; border-radius: 999px; }
+  .line-card .wa-note { margin: 0; font-size: var(--s-sm); line-height: 1.6; }
+  .line-card .wa-note > span { display: block; color: var(--muted); font-size: var(--s-xs); }
+  .line-card .wa-note .nb { display: inline; white-space: nowrap; color: inherit; font-size: inherit; }
+  .btn.btn-wa { background: #0E7C38; color: var(--white); border-color: #0E7C38; }
+  .btn.btn-wa:hover { background: #0A6630; border-color: #0A6630; }
+  @media (max-width: 420px) { .wa-card { border-left: 0; border-top: 6px solid #25D366; } .line-card .wa-tag { justify-self: center; } }
   form.lead { background: var(--white); color: var(--ink); border-radius: 22px; padding: 26px; display: grid; gap: 14px; }
   form.lead h3 { font-size: 1.4rem; font-weight: 800; }
   .in { display: grid; gap: 6px; }
@@ -864,6 +873,19 @@
           </div>
         </div>
       </div>
+      <div class="line-card wa-card" lang="lo">
+        <img loading="lazy" decoding="async" src="assets/whatsapp-qr.png" width="528" height="528" alt="QR code ສຳລັບທັກ WhatsApp ຊານົວ (QR code สำหรับทัก WhatsApp ชานัว)">
+        <div>
+          <span class="wa-tag">ສຳລັບໝູ່ເພື່ອນຊາວລາວ</span>
+          <b>WhatsApp ຊານົວ</b>
+          <p class="wa-note">ສົນໃຈເປີດຮ້ານ <span class="nb">ຊານົວ</span> ຢູ່ ສປປ ລາວ ທັກຫາ ທີມງານ ທາງ WhatsApp ໄດ້ເລີຍ<span lang="th">สำหรับเพื่อนๆ ชาว สปป.ลาว สนใจเปิดร้าน<span class="nb">ชานัว</span> ทักทีมงานทาง WhatsApp ได้เลย</span></p>
+          <code id="waUrl">https://wa.me/qr/X4PB3576LYR7N1</code>
+          <div class="line-actions">
+            <a class="btn btn-wa" href="https://wa.me/qr/X4PB3576LYR7N1" target="_blank" rel="noopener">ທັກ WhatsApp</a>
+            <button class="copy-btn" type="button" data-copy="waUrl" data-done="ສຳເນົາແລ້ວ">ສຳເນົາລິ້ງ</button>
+          </div>
+        </div>
+      </div>
     </div>
     <form class="lead" id="lead" novalidate>
       <h3>เตรียมข้อความสมัครส่งทาง LINE</h3>
@@ -989,7 +1011,7 @@
   // Copy buttons
   document.querySelectorAll(".copy-btn").forEach(btn => btn.addEventListener("click", () => {
     const el = $(btn.dataset.copy), txt = el.textContent.trim(), label = btn.textContent;
-    const ok = () => { btn.textContent = "คัดลอกแล้ว"; setTimeout(() => btn.textContent = label, 1600); };
+    const ok = () => { btn.textContent = btn.dataset.done || "คัดลอกแล้ว"; setTimeout(() => btn.textContent = label, 1600); };
     const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
     try { navigator.clipboard.writeText(txt).then(ok, fallback); } catch (e) { fallback(); }
   }));
